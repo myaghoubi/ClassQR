@@ -31,7 +31,35 @@ input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;backg
 #qrbox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px}
 #qrbox canvas,#qrbox img{max-width:100%}
 #scanner{position:fixed;inset:0;background:#000d;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-#scanner video{width:92%;max-width:480px;border-radius:12px}
+#scanner .vwrap{position:relative;width:92%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:14px;background:#000}
+#scanner video{width:100%;height:100%;object-fit:cover}
+.frame{position:absolute;inset:16%;border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.55);transition:box-shadow .25s}
+.frame i{position:absolute;width:30px;height:30px;border:4px solid #fff;transition:.25s}
+.frame i:nth-child(1){top:-3px;left:-3px;border-right:0;border-bottom:0;border-top-left-radius:12px}
+.frame i:nth-child(2){top:-3px;right:-3px;border-left:0;border-bottom:0;border-top-right-radius:12px}
+.frame i:nth-child(3){bottom:-3px;left:-3px;border-right:0;border-top:0;border-bottom-left-radius:12px}
+.frame i:nth-child(4){bottom:-3px;right:-3px;border-left:0;border-top:0;border-bottom-right-radius:12px}
+.frame b{position:absolute;left:5%;right:5%;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#4ade80,transparent);box-shadow:0 0 12px #4ade80;animation:sweep 1.8s ease-in-out infinite alternate}
+@keyframes sweep{from{top:5%}to{top:95%}}
+.frame.found{box-shadow:0 0 0 999px rgba(21,128,61,.5)}
+.frame.found i{border-color:#4ade80;transform:scale(1.2)}
+.frame.found b{display:none}
+.frame.found::after{content:"";position:absolute;inset:0;border-radius:12px;background:#4ade80;animation:flash .55s ease-out forwards}
+@keyframes flash{from{opacity:.75}to{opacity:0}}
+#result{position:fixed;inset:0;z-index:1000;background:#000b;display:none;align-items:center;justify-content:center}
+#result.show{display:flex}
+.rbox{background:var(--card);color:var(--tx);border-radius:18px;padding:26px 30px;text-align:center;max-width:86%;animation:pop .3s ease-out}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.rbox svg{width:96px;height:96px;fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.rbox circle{stroke-dasharray:152;stroke-dashoffset:152;animation:draw .5s .05s forwards}
+.rbox path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .4s .45s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#result.ok svg{stroke:var(--ok)}#result.err svg{stroke:var(--err)}
+#result.busy svg{display:none}
+.spin{display:none;width:56px;height:56px;margin:0 auto 8px;border:5px solid var(--bd);border-top-color:var(--pri);border-radius:50%;animation:rot .8s linear infinite}
+#result.busy .spin{display:block}
+@keyframes rot{to{transform:rotate(360deg)}}
+#rt{margin:10px 0 0;font-size:15px;line-height:1.7}
 .sess{border-bottom:1px solid var(--bd);padding:8px 0;font-size:14px}.sess:last-child{border:0}
 .tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:var(--pri);color:#fff}
 .tag.off{background:var(--mut)}
@@ -71,15 +99,19 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div class="card"><b>سابقه تغییرات</b><div id="chg"></div></div></section>
 </main>
 <nav id="nav"></nav>
-<div id="scanner"><video id="vid" playsinline muted></video><canvas id="cv" class="hide"></canvas>
-<div style="color:#fff" id="scanHint">بارکد را مقابل دوربین بگیرید</div><button class="btn" onclick="stopScan()">بستن</button></div>
+<div id="scanner"><div class="vwrap"><video id="vid" playsinline muted></video>
+<div class="frame" id="frame"><i></i><i></i><i></i><i></i><b></b></div></div><canvas id="cv" class="hide"></canvas>
+<div style="color:#fff" id="scanHint">بارکد را داخل کادر قرار دهید</div><button class="btn" onclick="stopScan()">بستن</button></div>
+
+<div id="result" onclick="hideFx()"><div class="rbox"><div class="spin"></div>
+<svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path id="rp" d=""/></svg><p id="rt"></p></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <script>
-const VERSION='1.0.0';
-const CHANGELOG=[{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.1.0';
+const CHANGELOG=[{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
@@ -122,27 +154,39 @@ $('pTitle').textContent='کلاس شماره '+n;$('qrbox2').insertAdjacentHTML(
 $('qrwrap').classList.remove('hide');msg('m-gen','بارکد تولید شد','ok')}
 
 /* پیام */
-function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`}
+function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`;if(afterScan&&(id==='m-prof'||id==='m-stu')){afterScan=false;fx(c,t)}}
 
 /* اسکن */
 let stream,scanning=false,mode='';
-async function startScan(m){mode=m;
+async function startScan(m){mode=m;afterScan=false;hideFx();
 if(m==='prof'&&(!$('pName').value.trim()||!$('pCourse').value.trim()))return msg('m-prof','نام استاد و نام درس را وارد کنید','err');
 if(m==='stu'&&(!$('sName').value.trim()||!$('sId').value.trim()))return msg('m-stu','نام و شماره دانشجویی را وارد کنید','err');
 try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}catch(e){return msg('m-'+m,'دسترسی به دوربین ممکن نشد','err')}
 $('vid').srcObject=stream;await $('vid').play();$('scanner').style.display='flex';scanning=true;loop()}
-function stopScan(){scanning=false;$('scanner').style.display='none';stream&&stream.getTracks().forEach(t=>t.stop())}
+function stopScan(){scanning=false;$('frame').classList.remove('found');$('scanner').style.display='none';stream&&stream.getTracks().forEach(t=>t.stop())}
+function beep(f,d){try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.frequency.value=f;g.gain.value=.15;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d)}catch(e){}}
+const vib=p=>navigator.vibrate&&navigator.vibrate(p);
+let fxT,afterScan=false;
+function fx(state,text){clearTimeout(fxT);const r=$('result');r.className='show '+state;$('rt').textContent=text;
+if(state!=='busy'){$('rp').setAttribute('d',state==='ok'?'M15 27l8 8 15-17':'M18 18l16 16M34 18L18 34');
+const b=r.firstElementChild;b.style.animation='none';b.offsetWidth;b.style.animation='';
+r.querySelectorAll('circle,path').forEach(e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''});
+if(state==='ok'){beep(880,.1);setTimeout(()=>beep(1320,.18),110);vib([60,40,60])}else{beep(220,.35);vib(300)}
+fxT=setTimeout(hideFx,state==='ok'?2200:3200)}}
+function hideFx(){clearTimeout(fxT);$('result').className=''}
 function loop(){if(!scanning)return;const v=$('vid'),c=$('cv');
-if(v.readyState===4){c.width=v.videoWidth;c.height=v.videoHeight;const x=c.getContext('2d');x.drawImage(v,0,0);
-const r=jsQR(x.getImageData(0,0,c.width,c.height).data,c.width,c.height);
-if(r&&r.data){stopScan();return onScan(r.data)}}
+if(v.readyState===4){const vw=v.videoWidth,vh=v.videoHeight,side=Math.min(vw,vh)*.68,out=Math.min(Math.round(side),640);
+c.width=c.height=out;const x=c.getContext('2d');x.drawImage(v,(vw-side)/2,(vh-side)/2,side,side,0,0,out,out);
+const r=jsQR(x.getImageData(0,0,out,out).data,out,out);
+if(r&&r.data){scanning=false;$('frame').classList.add('found');beep(1000,.12);vib(80);
+setTimeout(()=>{stopScan();onScan(r.data)},600);return}}
 requestAnimationFrame(loop)}
 
 const dist=(a,b,c,d)=>{const R=6371000,t=Math.PI/180,x=(c-a)*t,y=(d-b)*t;
 const h=Math.sin(x/2)**2+Math.cos(a*t)*Math.cos(c*t)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
 function getPos(){return new Promise((ok,no)=>navigator.geolocation.getCurrentPosition(ok,no,{enableHighAccuracy:true,timeout:15000}))}
 
-async function onScan(text){const out='m-'+mode;let d;
+async function onScan(text){const out='m-'+mode;let d;afterScan=true;fx('busy','در حال بررسی موقعیت...');
 try{d=JSON.parse(text);if(d.t!=='CLS')throw 0}catch(e){return msg(out,'بارکد معتبر نیست','err')}
 let p;try{p=await getPos()}catch(e){return msg(out,'برای ثبت، دسترسی به موقعیت مکانی لازم است','err')}
 const m=dist(p.coords.latitude,p.coords.longitude,d.lat,d.lng);

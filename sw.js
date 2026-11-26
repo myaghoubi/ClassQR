@@ -1,4 +1,4 @@
-const CACHE='attendance-v1.0.0';
+const CACHE='attendance-v1.1.0';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg',
 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js',
 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
