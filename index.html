@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1d4ed8">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="lib/leaflet.css">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#667085;--pri:#1d4ed8;--bd:#dde3ee;--ok:#15803d;--err:#b91c1c}
 @media(prefers-color-scheme:dark){:root{--bg:#0f1420;--card:#182033;--tx:#e8ecf5;--mut:#98a2b8;--pri:#5b8def;--bd:#2a3550;--ok:#4ade80;--err:#f87171}}
@@ -91,6 +91,8 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div id="qrwrap" class="card hide noprint"><div id="qrbox2" style="text-align:center"></div><button class="btn" onclick="window.print()">چاپ بارکد</button></div></section>
 <!-- سوابق -->
 <section id="p-log" class="hide"><div class="card"><b>سوابق حضور</b><div id="logs"></div>
+<button class="btn sec" onclick="syncNow()">همگام‌سازی با سرور</button>
+<div id="syncst"></div>
 <button class="btn sec" onclick="exportCSV()">خروجی CSV</button>
 <button class="btn sec" onclick="if(confirm('همه سوابق پاک شود؟')){db.sessions=[];save();renderLogs()}">پاک کردن سوابق</button></div>
 <div class="card"><label>شعاع مجاز اسکن از موقعیت کلاس (متر)</label><input id="radius" inputmode="numeric" onchange="db.radius=+this.value||100;save()"></div></section>
@@ -106,12 +108,14 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div id="result" onclick="hideFx()"><div class="rbox"><div class="spin"></div>
 <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path id="rp" d=""/></svg><p id="rt"></p></div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="lib/leaflet.js"></script>
+<script src="lib/qrcode.min.js"></script>
+<script src="lib/jsQR.js"></script>
+<script src="lib/supabase.js"></script>
+<script src="supabase-config.js"></script>
 <script>
-const VERSION='1.1.0';
-const CHANGELOG=[{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.2.0';
+const CHANGELOG=[{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
@@ -156,6 +160,48 @@ $('qrwrap').classList.remove('hide');msg('m-gen','بارکد تولید شد','o
 /* پیام */
 function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`;if(afterScan&&(id==='m-prof'||id==='m-stu')){afterScan=false;fx(c,t)}}
 
+/* همگام‌سازی با Supabase */
+const SB=window.CLASSQR_SUPABASE||{};
+const sb=(window.supabase&&SB.url&&SB.key)?window.supabase.createClient(SB.url,SB.key,{auth:{persistSession:false,autoRefreshToken:false}}):null;
+db.dirty=db.dirty||{};
+const setSync=(t,c)=>{const e=$('syncst');if(e)e.innerHTML=t?`<div class="msg ${c||''}">${t}</div>`:''};
+const tmo=(p,ms)=>Promise.race([p,new Promise((_,no)=>setTimeout(()=>no(new Error('timeout')),ms))]);
+function mergeRemote(ss,evs){
+ss.forEach(r=>{let s=db.sessions.find(x=>x.id===r.id);
+ if(!s){db.sessions.push({id:r.id,cls:r.cls,prof:r.prof,course:r.course,start:+r.start_at,end:r.end_at==null?null:+r.end_at,students:[]})}
+ else if(s.end==null&&r.end_at!=null)s.end=+r.end_at});
+evs.forEach(e=>{const s=db.sessions.find(x=>x.id===e.session_id);if(!s)return;
+ let t=s.students.find(x=>x.id===e.student_id);if(!t){t={id:e.student_id,name:e.student_name,ev:[]};s.students.push(t)}
+ if(!t.ev.includes(+e.ts)){t.ev.push(+e.ts);t.ev.sort((a,b)=>a-b)}});
+db.sessions.sort((a,b)=>a.start-b.start)}
+async function pull(cls){if(!sb)return;
+let q=sb.from('classqr_sessions').select('*').order('start_at',{ascending:false});
+q=cls?q.eq('cls',cls).limit(5):q.limit(500);
+const a=await q;if(a.error)throw a.error;
+const ids=a.data.map(r=>r.id),ev=[];
+for(let i=0;i<ids.length;i+=30){const part=ids.slice(i,i+30);
+ for(let from=0;;from+=1000){const b=await sb.from('classqr_events').select('*').in('session_id',part).order('id').range(from,from+999);
+  if(b.error)throw b.error;ev.push(...b.data);if(b.data.length<1000)break}}
+mergeRemote(a.data,ev);save()}
+let pushing=null;
+function push(){if(!sb)return Promise.resolve();
+if(pushing)return pushing.then(()=>push());
+const me=pushing=(async()=>{try{await 0;const ids=Object.keys(db.dirty);if(!ids.length)return;
+ const ss=db.sessions.filter(s=>db.dirty[s.id]);
+ if(ss.length){let r=await sb.from('classqr_sessions').upsert(ss.map(s=>({id:s.id,cls:s.cls,prof:s.prof,course:s.course||'',start_at:s.start,end_at:null})),{onConflict:'id',ignoreDuplicates:true});if(r.error)throw r.error;
+  for(const s of ss.filter(s=>s.end!=null)){r=await sb.from('classqr_sessions').update({end_at:s.end}).eq('id',s.id).is('end_at',null);if(r.error)throw r.error}}
+ const ev=[];ss.forEach(s=>s.students.forEach(t=>t.ev.forEach(ts=>ev.push({id:s.id+':'+t.id+':'+ts,session_id:s.id,student_id:t.id,student_name:t.name,ts}))));
+ for(let i=0;i<ev.length;i+=200){const r=await sb.from('classqr_events').upsert(ev.slice(i,i+200),{onConflict:'id',ignoreDuplicates:true});if(r.error)throw r.error}
+ ids.forEach(k=>{if(ss.some(s=>s.id===k))delete db.dirty[k]});save()}finally{if(pushing===me)pushing=null}})();
+return me}
+const touch=s=>{db.dirty[s.id]=1;save();push().catch(()=>{})};
+async function syncNow(){if(!sb)return setSync('اتصال به سرور تنظیم نشده است','err');
+setSync('در حال همگام‌سازی...');
+try{await tmo(pull(),20000);await tmo(push(),20000);renderLogs();setSync('همگام‌سازی انجام شد ('+fa(Date.now())+')','ok')}
+catch(e){setSync('همگام‌سازی انجام نشد؛ داده‌ها روی دستگاه ذخیره هستند و بعداً ارسال می‌شوند','err')}}
+addEventListener('online',()=>{push().catch(()=>{})});
+push().catch(()=>{});
+
 /* اسکن */
 let stream,scanning=false,mode='';
 async function startScan(m){mode=m;afterScan=false;hideFx();
@@ -191,17 +237,18 @@ try{d=JSON.parse(text);if(d.t!=='CLS')throw 0}catch(e){return msg(out,'بارک�
 let p;try{p=await getPos()}catch(e){return msg(out,'برای ثبت، دسترسی به موقعیت مکانی لازم است','err')}
 const m=dist(p.coords.latitude,p.coords.longitude,d.lat,d.lng);
 if(m>(db.radius||100))return msg(out,`شما در محل کلاس نیستید (فاصله حدود ${Math.round(m)} متر)`,'err');
+try{await tmo(pull(d.n),8000)}catch(e){}
 const now=Date.now(),act=db.sessions.find(s=>s.cls===d.n&&!s.end);
 if(mode==='prof'){const name=$('pName').value.trim();
- if(!act){db.sessions.push({id:uid(),cls:d.n,prof:name,course:$('pCourse').value.trim(),start:now,end:null,students:[]});save();
+ if(!act){const ns={id:uid(),cls:d.n,prof:name,course:$('pCourse').value.trim(),start:now,end:null,students:[]};db.sessions.push(ns);touch(ns);
   return msg(out,`ورود استاد ثبت شد؛ کلاس ${d.n} از اکنون در اختیار شماست`,'ok')}
  if(act.prof!==name)return msg(out,`این کلاس هم‌اکنون در اختیار «${act.prof}» است`,'err');
- act.end=now;act.students.forEach(s=>{if(s.ev.length%2)s.ev.push(now)});save();
+ act.end=now;act.students.forEach(s=>{if(s.ev.length%2)s.ev.push(now)});touch(act);
  return msg(out,'خروج استاد ثبت شد و خروج همه دانشجویان نیز ثبت گردید','ok')}
 if(!act)return msg(out,'در حال حاضر استادی این کلاس را فعال نکرده است','err');
 const id=$('sId').value.trim();let s=act.students.find(x=>x.id===id);
 if(!s){s={id,name:$('sName').value.trim(),ev:[]};act.students.push(s)}
-s.ev.push(now);save();
+s.ev.push(now);touch(act);
 msg(out,s.ev.length%2?`ورود شما ثبت شد (${fa(now)})`:`خروج شما ثبت شد (${fa(now)})`,'ok')}
 
 /* سوابق */
