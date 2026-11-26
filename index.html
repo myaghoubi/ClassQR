@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حضور و غیاب کلاس</title>
+<meta name="theme-color" content="#1d4ed8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#667085;--pri:#1d4ed8;--bd:#dde3ee;--ok:#15803d;--err:#b91c1c}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1420;--card:#182033;--tx:#e8ecf5;--mut:#98a2b8;--pri:#5b8def;--bd:#2a3550;--ok:#4ade80;--err:#f87171}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:70px}
+header{background:var(--pri);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}header small{opacity:.85}
+main{max-width:720px;margin:0 auto;padding:14px}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--card);border-top:1px solid var(--bd);display:flex}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:12px 2px;font:inherit;font-size:13px;cursor:pointer}
+nav button.on{color:var(--pri);font-weight:bold;border-top:3px solid var(--pri)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--mut);margin:8px 0 4px}
+input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:8px;padding:11px 16px;font:inherit;cursor:pointer;margin-top:10px}
+.btn.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.msg{padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
+.msg.ok{background:#15803d22;color:var(--ok)}.msg.err{background:#b91c1c22;color:var(--err)}
+#map{height:260px;border-radius:10px;margin-top:8px}
+#qrbox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px}
+#qrbox canvas,#qrbox img{max-width:100%}
+#scanner{position:fixed;inset:0;background:#000d;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+#scanner video{width:92%;max-width:480px;border-radius:12px}
+.sess{border-bottom:1px solid var(--bd);padding:8px 0;font-size:14px}.sess:last-child{border:0}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:var(--pri);color:#fff}
+.tag.off{background:var(--mut)}
+details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
+.hide{display:none}
+@media print{header,nav,.noprint{display:none!important}body{background:#fff;color:#000}.card{border:0}#printarea{display:block!important;text-align:center}}
+#printarea{display:none}
+</style>
+</head>
+<body>
+<header><h1>حضور و غیاب کلاس</h1><small id="ver"></small></header>
+<main>
+<!-- استاد -->
+<section id="p-prof"><div class="card"><b>ورود / خروج استاد</b>
+<label>نام استاد</label><input id="pName"><label>نام درس</label><input id="pCourse">
+<button class="btn" onclick="startScan('prof')">اسکن بارکد کلاس</button><div id="m-prof"></div></div></section>
+<!-- دانشجو -->
+<section id="p-stu" class="hide"><div class="card"><b>ورود / خروج دانشجو</b>
+<label>نام و نام خانوادگی</label><input id="sName"><label>شماره دانشجویی</label><input id="sId" inputmode="numeric">
+<button class="btn" onclick="startScan('stu')">اسکن بارکد کلاس</button><div id="m-stu"></div></div></section>
+<!-- تولید بارکد -->
+<section id="p-gen" class="hide"><div class="card noprint"><b>تولید بارکد کلاس</b>
+<label>شماره کلاس</label><input id="gNum">
+<label>موقعیت کلاس (روی نقشه کلیک کنید)</label><div id="map"></div>
+<div class="row"><div><label>عرض جغرافیایی</label><input id="gLat" inputmode="decimal"></div><div><label>طول جغرافیایی</label><input id="gLng" inputmode="decimal"></div></div>
+<button class="btn sec" onclick="myPos()">موقعیت فعلی من</button>
+<button class="btn" onclick="genQR()">تولید بارکد</button><div id="m-gen"></div></div>
+<div class="card" id="printarea"><h2 id="pTitle"></h2><div id="qrbox"></div></div>
+<div id="qrwrap" class="card hide noprint"><div id="qrbox2" style="text-align:center"></div><button class="btn" onclick="window.print()">چاپ بارکد</button></div></section>
+<!-- سوابق -->
+<section id="p-log" class="hide"><div class="card"><b>سوابق حضور</b><div id="logs"></div>
+<button class="btn sec" onclick="exportCSV()">خروجی CSV</button>
+<button class="btn sec" onclick="if(confirm('همه سوابق پاک شود؟')){db.sessions=[];save();renderLogs()}">پاک کردن سوابق</button></div>
+<div class="card"><label>شعاع مجاز اسکن از موقعیت کلاس (متر)</label><input id="radius" inputmode="numeric" onchange="db.radius=+this.value||100;save()"></div></section>
+<!-- درباره -->
+<section id="p-about" class="hide"><div class="card"><b>نسخه جاری: <span id="cur"></span></b></div>
+<div class="card"><b>سابقه تغییرات</b><div id="chg"></div></div></section>
+</main>
+<nav id="nav"></nav>
+<div id="scanner"><video id="vid" playsinline muted></video><canvas id="cv" class="hide"></canvas>
+<div style="color:#fff" id="scanHint">بارکد را مقابل دوربین بگیرید</div><button class="btn" onclick="stopScan()">بستن</button></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script>
+const VERSION='1.0.0';
+const CHANGELOG=[{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const $=id=>document.getElementById(id);
+let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
+const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
+const fa=t=>new Date(t).toLocaleString('fa-IR');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+/* ناوبری */
+const TABS=[['prof','استاد'],['stu','دانشجو'],['gen','بارکد'],['log','سوابق'],['about','نسخه']];
+$('nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')">${t[1]}</button>`).join('');
+function tab(t){TABS.forEach(x=>{$('p-'+x[0]).classList.toggle('hide',x[0]!==t)});
+document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+if(t==='log')renderLogs();if(t==='gen')initMap()}
+tab('prof');
+
+/* نسخه */
+$('ver').textContent='نسخه '+VERSION;$('cur').textContent=VERSION;
+$('chg').innerHTML=CHANGELOG.map(c=>`<div class="sess"><b>نسخه ${c.v}</b> <small>(${c.d})</small><ul>${c.items.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`).join('');
+
+/* پروفایل ذخیره‌شده */
+['pName','pCourse','sName','sId'].forEach(k=>{$(k).value=db.profile[k]||'';$(k).addEventListener('input',()=>{db.profile[k]=$(k).value;save()})});
+$('radius').value=db.radius||100;
+
+/* نقشه */
+let map,marker;
+function setPt(lat,lng){$('gLat').value=(+lat).toFixed(6);$('gLng').value=(+lng).toFixed(6);
+if(marker)marker.setLatLng([lat,lng]);else marker=L.marker([lat,lng]).addTo(map)}
+function initMap(){if(map){setTimeout(()=>map.invalidateSize(),100);return}
+if(!window.L){$('map').textContent='نقشه بارگذاری نشد؛ مختصات را دستی وارد کنید.';return}
+map=L.map('map').setView([35.6892,51.389],13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+map.on('click',e=>setPt(e.latlng.lat,e.latlng.lng))}
+function myPos(){navigator.geolocation.getCurrentPosition(p=>{initMap();setPt(p.coords.latitude,p.coords.longitude);map&&map.setView([p.coords.latitude,p.coords.longitude],17)},()=>msg('m-gen','دسترسی به موقعیت ممکن نشد','err'),{enableHighAccuracy:true})}
+
+/* تولید بارکد */
+function genQR(){const n=$('gNum').value.trim(),lat=parseFloat($('gLat').value),lng=parseFloat($('gLng').value);
+if(!n||isNaN(lat)||isNaN(lng))return msg('m-gen','شماره کلاس و موقعیت را مشخص کنید','err');
+const payload=JSON.stringify({t:'CLS',n,lat:+lat.toFixed(6),lng:+lng.toFixed(6)});
+['qrbox','qrbox2'].forEach(id=>{$(id).innerHTML='';new QRCode($(id),{text:payload,width:id==='qrbox'?360:240,height:id==='qrbox'?360:240,correctLevel:QRCode.CorrectLevel.M})});
+$('pTitle').textContent='کلاس شماره '+n;$('qrbox2').insertAdjacentHTML('afterbegin','<h3>کلاس '+n+'</h3>');
+$('qrwrap').classList.remove('hide');msg('m-gen','بارکد تولید شد','ok')}
+
+/* پیام */
+function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`}
+
+/* اسکن */
+let stream,scanning=false,mode='';
+async function startScan(m){mode=m;
+if(m==='prof'&&(!$('pName').value.trim()||!$('pCourse').value.trim()))return msg('m-prof','نام استاد و نام درس را وارد کنید','err');
+if(m==='stu'&&(!$('sName').value.trim()||!$('sId').value.trim()))return msg('m-stu','نام و شماره دانشجویی را وارد کنید','err');
+try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}catch(e){return msg('m-'+m,'دسترسی به دوربین ممکن نشد','err')}
+$('vid').srcObject=stream;await $('vid').play();$('scanner').style.display='flex';scanning=true;loop()}
+function stopScan(){scanning=false;$('scanner').style.display='none';stream&&stream.getTracks().forEach(t=>t.stop())}
+function loop(){if(!scanning)return;const v=$('vid'),c=$('cv');
+if(v.readyState===4){c.width=v.videoWidth;c.height=v.videoHeight;const x=c.getContext('2d');x.drawImage(v,0,0);
+const r=jsQR(x.getImageData(0,0,c.width,c.height).data,c.width,c.height);
+if(r&&r.data){stopScan();return onScan(r.data)}}
+requestAnimationFrame(loop)}
+
+const dist=(a,b,c,d)=>{const R=6371000,t=Math.PI/180,x=(c-a)*t,y=(d-b)*t;
+const h=Math.sin(x/2)**2+Math.cos(a*t)*Math.cos(c*t)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+function getPos(){return new Promise((ok,no)=>navigator.geolocation.getCurrentPosition(ok,no,{enableHighAccuracy:true,timeout:15000}))}
+
+async function onScan(text){const out='m-'+mode;let d;
+try{d=JSON.parse(text);if(d.t!=='CLS')throw 0}catch(e){return msg(out,'بارکد معتبر نیست','err')}
+let p;try{p=await getPos()}catch(e){return msg(out,'برای ثبت، دسترسی به موقعیت مکانی لازم است','err')}
+const m=dist(p.coords.latitude,p.coords.longitude,d.lat,d.lng);
+if(m>(db.radius||100))return msg(out,`شما در محل کلاس نیستید (فاصله حدود ${Math.round(m)} متر)`,'err');
+const now=Date.now(),act=db.sessions.find(s=>s.cls===d.n&&!s.end);
+if(mode==='prof'){const name=$('pName').value.trim();
+ if(!act){db.sessions.push({id:uid(),cls:d.n,prof:name,course:$('pCourse').value.trim(),start:now,end:null,students:[]});save();
+  return msg(out,`ورود استاد ثبت شد؛ کلاس ${d.n} از اکنون در اختیار شماست`,'ok')}
+ if(act.prof!==name)return msg(out,`این کلاس هم‌اکنون در اختیار «${act.prof}» است`,'err');
+ act.end=now;act.students.forEach(s=>{if(s.ev.length%2)s.ev.push(now)});save();
+ return msg(out,'خروج استاد ثبت شد و خروج همه دانشجویان نیز ثبت گردید','ok')}
+if(!act)return msg(out,'در حال حاضر استادی این کلاس را فعال نکرده است','err');
+const id=$('sId').value.trim();let s=act.students.find(x=>x.id===id);
+if(!s){s={id,name:$('sName').value.trim(),ev:[]};act.students.push(s)}
+s.ev.push(now);save();
+msg(out,s.ev.length%2?`ورود شما ثبت شد (${fa(now)})`:`خروج شما ثبت شد (${fa(now)})`,'ok')}
+
+/* سوابق */
+function renderLogs(){$('logs').innerHTML=db.sessions.length?db.sessions.slice().reverse().map(s=>`<div class="sess">
+<b>کلاس ${s.cls}</b> — ${s.course} — ${s.prof} <span class="tag ${s.end?'off':''}">${s.end?'پایان‌یافته':'فعال'}</span><br>
+<small>ورود: ${fa(s.start)}${s.end?' | خروج: '+fa(s.end):''}</small>
+<details><summary>دانشجویان (${s.students.length})</summary>${s.students.map(t=>`<div>${t.name} (${t.id}): ${t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+new Date(e).toLocaleTimeString('fa-IR')).join('، ')}</div>`).join('')||'—'}</details></div>`).join(''):'<p>سابقه‌ای ثبت نشده است.</p>'}
+function exportCSV(){const r=[['کلاس','درس','استاد','ورود استاد','خروج استاد','دانشجو','شماره دانشجویی','ورود/خروج‌ها']];
+db.sessions.forEach(s=>s.students.forEach(t=>r.push([s.cls,s.course,s.prof,fa(s.start),s.end?fa(s.end):'',t.name,t.id,t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+fa(e)).join(' | ')])));
+const csv='\ufeff'+r.map(x=>x.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='attendance.csv';a.click()}
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
