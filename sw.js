@@ -1,4 +1,4 @@
-const CACHE='attendance-v1.2.0';
+const CACHE='attendance-v1.3.0';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./supabase-config.js',
 './lib/leaflet.js','./lib/leaflet.css','./lib/qrcode.min.js','./lib/jsQR.js','./lib/supabase.js',
 './lib/images/layers.png','./lib/images/layers-2x.png','./lib/images/marker-icon.png','./lib/images/marker-icon-2x.png','./lib/images/marker-shadow.png'];
