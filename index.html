@@ -97,7 +97,7 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div id="login">
 <div class="hero"><img src="icon.svg" alt=""><h1>حضور و غیاب کلاس با بارکد</h1>
 <p class="sub">ثبت ورود و خروج استاد و دانشجو با اسکن QR کلاس، همراه با ثبت فاصله از محل کلاس</p></div>
-<div class="card"><b>ورود مدیر</b>
+<div class="card"><b>ورود به حساب</b>
 <form onsubmit="doLogin();return false" autocomplete="off">
 <label for="lUser">نام کاربری</label><input id="lUser" autocapitalize="off" autocorrect="off" dir="ltr">
 <label for="lPass">رمز عبور</label><input id="lPass" type="password" dir="ltr">
@@ -105,7 +105,7 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <button class="btn" type="submit" style="width:100%">ورود</button></form>
 <div id="m-login"></div>
 <button class="btn sec" style="width:100%" onclick="guestEnter()">ورود استاد / دانشجو (بدون حساب)</button>
-<small style="display:block;margin-top:8px;color:var(--mut)">استاد و دانشجو برای ثبت حضور نیازی به حساب ندارند؛ تولید بارکد و مشاهده سوابق مخصوص مدیر است.</small></div>
+<small style="display:block;margin-top:8px;color:var(--mut)">استاد و دانشجو برای ثبت حضور می‌توانند با حساب خود وارد شوند یا بدون حساب ادامه دهند؛ تولید بارکد و مشاهده سوابق فقط برای مدیر است.</small></div>
 <div class="card"><h2>این برنامه چیست؟</h2>
 <p style="margin:0">«حضور و غیاب کلاس» یک برنامه سبک و نصب‌پذیر (PWA) است که روی گوشی و رایانه اجرا می‌شود. مدیر برای هر کلاس یک بارکد (QR) می‌سازد و روی در یا دیوار کلاس نصب می‌کند؛ استاد و دانشجویان فقط با اسکن همان بارکد ورود و خروج خود را ثبت می‌کنند. بدون نیاز به دستگاه یا سخت‌افزار جداگانه.</p></div>
 <div class="card"><h2>روش استفاده</h2><ol>
@@ -170,8 +170,8 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <script src="lib/supabase.js"></script>
 <script src="supabase-config.js"></script>
 <script>
-const VERSION='1.5.0';
-const CHANGELOG=[{v:'1.5.0',d:'۱۴۰۵/۰۹/۰۶',items:['استفاده از فونت فارسی وزیرمتن (داخل برنامه، بدون نیاز به اینترنت)','صفحه ورود با معرفی محصول، روش استفاده و مزایا','حساب مدیر با رمز عبور هش‌شده (PBKDF2-SHA256) در کد برنامه؛ تب‌های بارکد و سوابق فقط برای مدیر','ورود استاد و دانشجو بدون حساب برای ثبت حضور (تب استاد و دانشجو)']},{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.6.0';
+const CHANGELOG=[{v:'1.6.0',d:'۱۴۰۵/۰۹/۰۶',items:['افزودن حساب آزمایشی استاد و دانشجو (رمزها هش‌شده)؛ استاد فقط تب استاد و دانشجو فقط تب دانشجو را می‌بیند','پر شدن خودکار نام و مشخصات حساب‌های آزمایشی در فرم ثبت حضور']},{v:'1.5.0',d:'۱۴۰۵/۰۹/۰۶',items:['استفاده از فونت فارسی وزیرمتن (داخل برنامه، بدون نیاز به اینترنت)','صفحه ورود با معرفی محصول، روش استفاده و مزایا','حساب مدیر با رمز عبور هش‌شده (PBKDF2-SHA256) در کد برنامه؛ تب‌های بارکد و سوابق فقط برای مدیر','ورود استاد و دانشجو بدون حساب برای ثبت حضور (تب استاد و دانشجو)']},{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
@@ -186,22 +186,28 @@ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dat
 if(t==='log')renderLogs();if(t==='gen')initMap()}
 
 /* ورود */
-const AUTH={salt:'b26b469219b4702e5211a1da31bcf129',it:150000,h:'7911d6e335e7aff4b8c1cdce7c510b3234648f7bab114d895dab29d7be9167ba'};
+const AUTH={it:150000,users:[
+{r:'admin',s:'b26b469219b4702e5211a1da31bcf129',h:'7911d6e335e7aff4b8c1cdce7c510b3234648f7bab114d895dab29d7be9167ba'},
+{r:'prof',s:'f01c04fd14576c9cfe77f8c546b031be',h:'e509a6ad8703ae7c5d4f2dd101f3903a8a55a84656215720deef6e398a8de744'},
+{r:'stu',s:'8d4db6879bd050d670bebed381882619',h:'eac506d02340c47a5546073ea4f4ad355d56056817b10d9f8591f09545e0ed0e'}]};
 const toHex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
-async function derive(u,p){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(u+':'+p),'PBKDF2',false,['deriveBits']);
-return toHex(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(AUTH.salt),iterations:AUTH.it},k,256))}
+async function derive(u,p,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(u+':'+p),'PBKDF2',false,['deriveBits']);
+return toHex(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(salt),iterations:AUTH.it},k,256))}
+const PRE={prof:{pName:'استاد آزمایشی',pCourse:'درس آزمایشی'},stu:{sName:'دانشجوی آزمایشی',sId:'99000001'}};
 const rd=k=>{try{return sessionStorage.getItem(k)||localStorage.getItem(k)||''}catch(e){return ''}};
 let role=rd('cls_role'),fails=0;
 function setRole(r,remember){role=r;try{sessionStorage.removeItem('cls_role');localStorage.removeItem('cls_role');if(r)(remember?localStorage:sessionStorage).setItem('cls_role',r)}catch(e){}applyRole()}
-function applyRole(){TABS=role==='admin'?ALL:ALL.filter(x=>['prof','stu','about'].includes(x[0]));
+const ROLETABS={admin:null,prof:['prof','about'],stu:['stu','about'],guest:['prof','stu','about']};
+function applyRole(){const rt=ROLETABS[role];TABS=rt?ALL.filter(x=>rt.includes(x[0])):ALL;
+if(PRE[role])Object.entries(PRE[role]).forEach(([k,v])=>{if(!$(k).value.trim()){$(k).value=v;db.profile[k]=v}});save();
 $('nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')">${t[1]}</button>`).join('');
-document.body.classList.toggle('nologin',!role);$('lo').textContent=role==='admin'?'خروج':'ورود مدیر';
+document.body.classList.toggle('nologin',!role);$('lo').textContent=role==='guest'?'ورود به حساب':'خروج';
 if(role)tab(TABS[0][0]);else scrollTo(0,0)}
 async function doLogin(){const u=$('lUser').value.trim(),pw=$('lPass').value;
 let lk=0;try{lk=+localStorage.getItem('cls_lock')||0}catch(e){}
 if(Date.now()<lk)return msg('m-login','به دلیل تلاش‌های ناموفق، چند ثانیه صبر کنید و دوباره امتحان کنید','err');
-let ok=false;try{ok=(await derive(u,pw))===AUTH.h}catch(e){return msg('m-login','مرورگر از رمزنگاری پشتیبانی نمی‌کند (برنامه باید با https باز شود)','err')}
-if(ok){fails=0;$('lPass').value='';$('m-login').innerHTML='';setRole('admin',$('lRem').checked)}
+let who='';try{for(const x of AUTH.users)if((await derive(u,pw,x.s))===x.h)who=x.r}catch(e){return msg('m-login','مرورگر از رمزنگاری پشتیبانی نمی‌کند (برنامه باید با https باز شود)','err')}
+if(who){fails=0;$('lPass').value='';$('m-login').innerHTML='';setRole(who,$('lRem').checked)}
 else{if(++fails>=5){fails=0;try{localStorage.setItem('cls_lock',Date.now()+30000)}catch(e){}}msg('m-login','نام کاربری یا رمز عبور اشتباه است','err')}}
 const guestEnter=()=>setRole('guest',false);
 const logout=()=>setRole('',false);
