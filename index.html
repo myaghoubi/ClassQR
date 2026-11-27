@@ -28,7 +28,14 @@ input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;backg
 .msg{padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
 .msg.ok{background:#15803d22;color:var(--ok)}.msg.err{background:#b91c1c22;color:var(--err)}
 #map{height:260px;border-radius:10px;margin-top:8px}
-#qrbox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px}
+#qrbox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px;background:#fff;border-radius:22px;width:fit-content;margin:0 auto}
+#qrdlg{position:fixed;inset:0;z-index:1001;background:#000b;display:none;align-items:center;justify-content:center;padding:16px}
+#qrdlg.show{display:flex}
+.qdbox{background:var(--bg);color:var(--tx);border-radius:18px;padding:18px;text-align:center;max-width:100%;max-height:100%;overflow:auto;animation:pop .25s ease-out}
+.qdbox h3{margin:0 0 12px}
+.qrsq{display:inline-block;background:#fff;border:1px solid var(--bd);box-shadow:0 2px 10px #0002;border-radius:22px;padding:20px;line-height:0}
+.qrsq canvas,.qrsq img{max-width:100%;height:auto!important}
+.qdbox .row{margin-top:12px}
 #qrbox canvas,#qrbox img{max-width:100%}
 #scanner{position:fixed;inset:0;background:#000d;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 #scanner .vwrap{position:relative;width:92%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:14px;background:#000}
@@ -88,7 +95,7 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <button class="btn sec" onclick="myPos()">موقعیت فعلی من</button>
 <button class="btn" onclick="genQR()">تولید بارکد</button><div id="m-gen"></div></div>
 <div class="card" id="printarea"><h2 id="pTitle"></h2><div id="qrbox"></div></div>
-<div id="qrwrap" class="card hide noprint"><div id="qrbox2" style="text-align:center"></div><button class="btn" onclick="window.print()">چاپ بارکد</button></div></section>
+</section>
 <!-- سوابق -->
 <section id="p-log" class="hide"><div class="card"><b>سوابق حضور</b><div id="logs"></div>
 <button class="btn sec" onclick="syncNow()">همگام‌سازی با سرور</button>
@@ -105,6 +112,9 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div class="frame" id="frame"><i></i><i></i><i></i><i></i><b></b></div></div><canvas id="cv" class="hide"></canvas>
 <div style="color:#fff" id="scanHint">بارکد را داخل کادر قرار دهید</div><button class="btn" onclick="stopScan()">بستن</button></div>
 
+<div id="qrdlg" class="noprint" onclick="if(event.target===this)closeQR()"><div class="qdbox" role="dialog" aria-modal="true"><h3 id="qTitle"></h3><div class="qrsq"><div id="qrbox2"></div></div>
+<div class="row"><button class="btn" onclick="window.print()">چاپ بارکد</button><button class="btn sec" onclick="closeQR()">بستن</button></div></div></div>
+
 <div id="result" onclick="hideFx()"><div class="rbox"><div class="spin"></div>
 <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path id="rp" d=""/></svg><p id="rt"></p></div></div>
 
@@ -114,8 +124,8 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <script src="lib/supabase.js"></script>
 <script src="supabase-config.js"></script>
 <script>
-const VERSION='1.3.0';
-const CHANGELOG=[{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.4.0';
+const CHANGELOG=[{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
@@ -153,9 +163,11 @@ function myPos(){navigator.geolocation.getCurrentPosition(p=>{initMap();setPt(p.
 function genQR(){const n=$('gNum').value.trim(),lat=parseFloat($('gLat').value),lng=parseFloat($('gLng').value);
 if(!n||isNaN(lat)||isNaN(lng))return msg('m-gen','شماره کلاس و موقعیت را مشخص کنید','err');
 const payload=JSON.stringify({t:'CLS',n,lat:+lat.toFixed(6),lng:+lng.toFixed(6)});
-['qrbox','qrbox2'].forEach(id=>{$(id).innerHTML='';new QRCode($(id),{text:payload,width:id==='qrbox'?360:240,height:id==='qrbox'?360:240,correctLevel:QRCode.CorrectLevel.M})});
-$('pTitle').textContent='کلاس شماره '+n;$('qrbox2').insertAdjacentHTML('afterbegin','<h3>کلاس '+n+'</h3>');
-$('qrwrap').classList.remove('hide');msg('m-gen','بارکد تولید شد','ok')}
+['qrbox','qrbox2'].forEach(id=>{$(id).innerHTML='';new QRCode($(id),{text:payload,width:id==='qrbox'?360:280,height:id==='qrbox'?360:280,correctLevel:QRCode.CorrectLevel.M})});
+$('pTitle').textContent='کلاس شماره '+n;$('qTitle').textContent='کلاس شماره '+n;
+$('qrdlg').classList.add('show');msg('m-gen','بارکد تولید شد','ok')}
+function closeQR(){$('qrdlg').classList.remove('show')}
+addEventListener('keydown',e=>{if(e.key==='Escape')closeQR()});
 
 /* پیام */
 function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`;if(afterScan&&(id==='m-prof'||id==='m-stu')){afterScan=false;fx(c,t)}}
