@@ -11,7 +11,24 @@
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#667085;--pri:#1d4ed8;--bd:#dde3ee;--ok:#15803d;--err:#b91c1c}
 @media(prefers-color-scheme:dark){:root{--bg:#0f1420;--card:#182033;--tx:#e8ecf5;--mut:#98a2b8;--pri:#5b8def;--bd:#2a3550;--ok:#4ade80;--err:#f87171}}
+@font-face{font-family:Vazirmatn;font-weight:400;font-style:normal;font-display:swap;src:url(lib/fonts/Vazirmatn-Regular.woff2) format('woff2')}
+@font-face{font-family:Vazirmatn;font-weight:700;font-style:normal;font-display:swap;src:url(lib/fonts/Vazirmatn-Bold.woff2) format('woff2')}
 *{box-sizing:border-box}
+button,input{font-family:inherit}
+body.nologin header,body.nologin main,body.nologin nav{display:none}
+body:not(.nologin) #login{display:none}
+#login{max-width:720px;margin:0 auto;padding:18px 14px 40px;line-height:1.9}
+#login .hero{text-align:center;padding:10px 0 4px}
+#login .hero img{width:76px;height:76px;border-radius:18px}
+#login h1{font-size:22px;margin:10px 0 4px}
+#login .sub{color:var(--mut);margin:0 0 14px;font-size:15px}
+#login h2{font-size:17px;margin:0 0 8px;color:var(--pri)}
+#login ol,#login ul{margin:0;padding-inline-start:22px}
+#login li{margin-bottom:6px}
+#login .who{font-weight:bold}
+.hbtn{background:none;border:1px solid #fff9;color:#fff;border-radius:8px;padding:3px 10px;font:inherit;font-size:12px;cursor:pointer;margin-inline-start:6px}
+.chk{display:flex;align-items:center;gap:8px;margin:10px 0 0;font-size:14px;color:var(--tx)}
+.chk input{width:auto}
 body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:70px}
 header{background:var(--pri);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 header h1{font-size:18px;margin:0}header small{opacity:.85}
@@ -76,8 +93,37 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 #printarea{display:none}
 </style>
 </head>
-<body>
-<header><h1>حضور و غیاب کلاس</h1><small id="ver"></small></header>
+<body class="nologin">
+<div id="login">
+<div class="hero"><img src="icon.svg" alt=""><h1>حضور و غیاب کلاس با بارکد</h1>
+<p class="sub">ثبت ورود و خروج استاد و دانشجو با اسکن QR کلاس، همراه با ثبت فاصله از محل کلاس</p></div>
+<div class="card"><b>ورود مدیر</b>
+<form onsubmit="doLogin();return false" autocomplete="off">
+<label for="lUser">نام کاربری</label><input id="lUser" autocapitalize="off" autocorrect="off" dir="ltr">
+<label for="lPass">رمز عبور</label><input id="lPass" type="password" dir="ltr">
+<label class="chk"><input type="checkbox" id="lRem"> مرا در این دستگاه به خاطر بسپار</label>
+<button class="btn" type="submit" style="width:100%">ورود</button></form>
+<div id="m-login"></div>
+<button class="btn sec" style="width:100%" onclick="guestEnter()">ورود استاد / دانشجو (بدون حساب)</button>
+<small style="display:block;margin-top:8px;color:var(--mut)">استاد و دانشجو برای ثبت حضور نیازی به حساب ندارند؛ تولید بارکد و مشاهده سوابق مخصوص مدیر است.</small></div>
+<div class="card"><h2>این برنامه چیست؟</h2>
+<p style="margin:0">«حضور و غیاب کلاس» یک برنامه سبک و نصب‌پذیر (PWA) است که روی گوشی و رایانه اجرا می‌شود. مدیر برای هر کلاس یک بارکد (QR) می‌سازد و روی در یا دیوار کلاس نصب می‌کند؛ استاد و دانشجویان فقط با اسکن همان بارکد ورود و خروج خود را ثبت می‌کنند. بدون نیاز به دستگاه یا سخت‌افزار جداگانه.</p></div>
+<div class="card"><h2>روش استفاده</h2><ol>
+<li><span class="who">مدیر:</span> پس از ورود، در تب «بارکد» شماره کلاس را بنویسید، موقعیت کلاس را روی نقشه انتخاب کنید (یا «موقعیت فعلی من» را بزنید)، بارکد را تولید و چاپ کنید و در کلاس نصب کنید.</li>
+<li><span class="who">استاد:</span> در تب «استاد» نام و نام درس را وارد کنید و بارکد را اسکن کنید تا ورود ثبت شود و کلاس در اختیار شما باشد. در پایان کلاس دوباره اسکن کنید تا خروج شما و خروج همه دانشجویان ثبت شود.</li>
+<li><span class="who">دانشجو:</span> در تب «دانشجو» نام و شماره دانشجویی را وارد کنید و پس از شروع کلاس توسط استاد، بارکد را اسکن کنید. اسکن اول ورود و اسکن بعدی خروج است.</li>
+<li><span class="who">مدیر:</span> در تب «سوابق» ورود و خروج‌ها و فاصله هر اسکن را ببینید، خروجی CSV بگیرید و داده‌ها را با سرور همگام کنید.</li></ol></div>
+<div class="card"><h2>مزایا</h2><ul>
+<li>ثبت سریع با یک اسکن، بدون برگه و بدون صدا زدن اسامی</li>
+<li>ثبت فاصله هر اسکن از محل کلاس برای کنترل دقیق‌تر حضور</li>
+<li>استاد باید کلاس را فعال کند و خروج او، خروج همه دانشجویان را هم ثبت می‌کند</li>
+<li>کارکرد آفلاین؛ داده‌ها روی دستگاه ذخیره می‌شوند و با اتصال اینترنت خودکار با سرور همگام می‌شوند</li>
+<li>نصب روی صفحه اصلی گوشی مانند یک برنامه معمولی</li>
+<li>خروجی CSV برای استفاده در Excel و سامانه‌های آموزشی</li>
+<li>رابط فارسی و راست‌چین با فونت وزیرمتن</li></ul></div>
+<p style="text-align:center;color:var(--mut);font-size:13px">نسخه <span id="lver"></span></p>
+</div>
+<header><h1>حضور و غیاب کلاس</h1><div><small id="ver"></small><button class="hbtn" id="lo" onclick="logout()">خروج</button></div></header>
 <main>
 <!-- استاد -->
 <section id="p-prof"><div class="card"><b>ورود / خروج استاد</b>
@@ -124,8 +170,8 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <script src="lib/supabase.js"></script>
 <script src="supabase-config.js"></script>
 <script>
-const VERSION='1.4.0';
-const CHANGELOG=[{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.5.0';
+const CHANGELOG=[{v:'1.5.0',d:'۱۴۰۵/۰۹/۰۶',items:['استفاده از فونت فارسی وزیرمتن (داخل برنامه، بدون نیاز به اینترنت)','صفحه ورود با معرفی محصول، روش استفاده و مزایا','حساب مدیر با رمز عبور هش‌شده (PBKDF2-SHA256) در کد برنامه؛ تب‌های بارکد و سوابق فقط برای مدیر','ورود استاد و دانشجو بدون حساب برای ثبت حضور (تب استاد و دانشجو)']},{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
@@ -133,15 +179,36 @@ const fa=t=>new Date(t).toLocaleString('fa-IR');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
 /* ناوبری */
-const TABS=[['prof','استاد'],['stu','دانشجو'],['gen','بارکد'],['log','سوابق'],['about','نسخه']];
-$('nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')">${t[1]}</button>`).join('');
-function tab(t){TABS.forEach(x=>{$('p-'+x[0]).classList.toggle('hide',x[0]!==t)});
+const ALL=[['prof','استاد'],['stu','دانشجو'],['gen','بارکد'],['log','سوابق'],['about','نسخه']];
+let TABS=ALL;
+function tab(t){if(!TABS.some(x=>x[0]===t))return;ALL.forEach(x=>{$('p-'+x[0]).classList.toggle('hide',x[0]!==t)});
 document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
 if(t==='log')renderLogs();if(t==='gen')initMap()}
-tab('prof');
+
+/* ورود */
+const AUTH={salt:'b26b469219b4702e5211a1da31bcf129',it:150000,h:'7911d6e335e7aff4b8c1cdce7c510b3234648f7bab114d895dab29d7be9167ba'};
+const toHex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+async function derive(u,p){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(u+':'+p),'PBKDF2',false,['deriveBits']);
+return toHex(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(AUTH.salt),iterations:AUTH.it},k,256))}
+const rd=k=>{try{return sessionStorage.getItem(k)||localStorage.getItem(k)||''}catch(e){return ''}};
+let role=rd('cls_role'),fails=0;
+function setRole(r,remember){role=r;try{sessionStorage.removeItem('cls_role');localStorage.removeItem('cls_role');if(r)(remember?localStorage:sessionStorage).setItem('cls_role',r)}catch(e){}applyRole()}
+function applyRole(){TABS=role==='admin'?ALL:ALL.filter(x=>['prof','stu','about'].includes(x[0]));
+$('nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')">${t[1]}</button>`).join('');
+document.body.classList.toggle('nologin',!role);$('lo').textContent=role==='admin'?'خروج':'ورود مدیر';
+if(role)tab(TABS[0][0]);else scrollTo(0,0)}
+async function doLogin(){const u=$('lUser').value.trim(),pw=$('lPass').value;
+let lk=0;try{lk=+localStorage.getItem('cls_lock')||0}catch(e){}
+if(Date.now()<lk)return msg('m-login','به دلیل تلاش‌های ناموفق، چند ثانیه صبر کنید و دوباره امتحان کنید','err');
+let ok=false;try{ok=(await derive(u,pw))===AUTH.h}catch(e){return msg('m-login','مرورگر از رمزنگاری پشتیبانی نمی‌کند (برنامه باید با https باز شود)','err')}
+if(ok){fails=0;$('lPass').value='';$('m-login').innerHTML='';setRole('admin',$('lRem').checked)}
+else{if(++fails>=5){fails=0;try{localStorage.setItem('cls_lock',Date.now()+30000)}catch(e){}}msg('m-login','نام کاربری یا رمز عبور اشتباه است','err')}}
+const guestEnter=()=>setRole('guest',false);
+const logout=()=>setRole('',false);
+applyRole();
 
 /* نسخه */
-$('ver').textContent='نسخه '+VERSION;$('cur').textContent=VERSION;
+$('ver').textContent='نسخه '+VERSION;$('lver').textContent=VERSION;$('cur').textContent=VERSION;
 $('chg').innerHTML=CHANGELOG.map(c=>`<div class="sess"><b>نسخه ${c.v}</b> <small>(${c.d})</small><ul>${c.items.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`).join('');
 
 /* پروفایل ذخیره‌شده */
