@@ -38,7 +38,7 @@ nav button{flex:1;border:0;background:none;color:var(--mut);padding:12px 2px;fon
 nav button.on{color:var(--pri);font-weight:bold;border-top:3px solid var(--pri)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
 label{display:block;font-size:13px;color:var(--mut);margin:8px 0 4px}
-input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+input,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
 .btn{background:var(--pri);color:#fff;border:0;border-radius:8px;padding:11px 16px;font:inherit;cursor:pointer;margin-top:10px}
 .btn.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
 .row{display:flex;gap:8px}.row>*{flex:1}
@@ -91,6 +91,67 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 .hide{display:none}
 @media print{header,nav,.noprint{display:none!important}body{background:#fff;color:#000}.card{border:0}#printarea{display:block!important;text-align:center}}
 #printarea{display:none}
+:root{--v1:#257de0}
+@media(prefers-color-scheme:dark){:root{--v1:#338ced}}
+.dh h2{margin:0 0 2px;font-size:19px}.dsub{color:var(--mut);font-size:13px;margin-bottom:10px}
+.drow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.drow select{width:auto;min-width:130px;flex:1}
+.drow .btn{margin:0;padding:9px 14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.chip{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:99px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--pri);border-color:var(--pri);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+@media(min-width:560px){.kpis{grid-template-columns:repeat(3,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.kpi b{display:block;font-size:24px;line-height:1.4}.kpi span{font-size:12px;color:var(--mut)}
+.ct{margin:0 0 2px;font-size:15px}.cs{color:var(--mut);font-size:12px;margin:0 0 10px}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-bottom:8px}
+.lg i{display:inline-block;width:14px;height:10px;border-radius:3px;background:var(--v1);vertical-align:middle;margin-inline-end:5px}
+.act{background:repeating-linear-gradient(135deg,var(--v1) 0 3px,transparent 3px 6px)!important;box-shadow:inset 0 0 0 1.5px var(--v1)}
+.lg i.act{box-shadow:inset 0 0 0 1px var(--v1)}
+.cwrap{display:flex;gap:6px}
+.cy{position:relative;height:150px;width:26px;flex:none;font-size:10px;color:var(--mut)}
+.cy span{position:absolute;inset-inline-end:0;transform:translateY(50%)}
+.cscroll{flex:1;overflow-x:auto}
+.plot{position:relative;display:flex;height:150px}
+.plot u{position:absolute;inset-inline:0;height:1px;background:var(--bd)}
+.col{position:relative;flex:0 0 38px;height:100%}
+.bar{position:absolute;bottom:0;left:50%;margin-left:-9px;width:18px;background:var(--v1);border-radius:4px 4px 0 0;outline-offset:2px}
+.val{position:absolute;left:0;right:0;text-align:center;font-style:normal;font-size:11px;color:var(--tx)}
+.cx{display:flex;margin-top:4px}.xl{flex:0 0 38px;text-align:center;font-size:10px;line-height:1.4;color:var(--mut)}.xl b{color:var(--tx);font-size:11px}
+.gwrap{padding:0 14px}
+.gt{position:relative}
+.gax{position:relative;height:16px;font-size:10px;color:var(--mut)}
+.gax span{position:absolute;transform:translateX(-50%)}
+.grow{margin-top:8px}
+.glab{font-size:12px;margin-bottom:3px;text-align:right}.glab small{color:var(--mut)}
+.gtr{position:relative;height:16px;border-inline:1px solid var(--bd);background-image:linear-gradient(to right,var(--bd) 1px,transparent 1px)}
+.gb{position:absolute;top:2px;height:12px;border-radius:4px;background:var(--v1);outline-offset:2px}
+.hrow{margin-bottom:10px}
+.hh{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:3px}.hh small{color:var(--mut)}
+.htr{height:10px;background:var(--bg);border-radius:4px}
+.hb{display:block;height:10px;background:var(--v1);border-radius:4px;outline-offset:2px}
+.tw{overflow-x:auto}
+.dtbl{width:100%;border-collapse:collapse;font-size:13px}
+.dtbl th{text-align:right;color:var(--mut);font-weight:normal;font-size:12px;white-space:nowrap}
+.dtbl th,.dtbl td{padding:7px 6px;border-bottom:1px solid var(--bd)}
+.dtbl td{white-space:nowrap}
+.bar:focus-visible,.gb:focus-visible,.hb:focus-visible{outline:2px solid var(--tx)}
+nav button{display:flex!important;flex-direction:column;align-items:center;gap:3px;font-size:11px!important;padding:8px 2px!important}
+nav button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hr{display:flex;align-items:center;gap:8px}
+.hv{display:flex;flex-direction:column;align-items:center;line-height:1.5}
+.vl{color:#fff;font-size:12px;text-decoration:underline;opacity:.95}
+.urow{display:flex;flex-direction:column;gap:6px}
+.uh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.uh b{font-size:15px}.um{font-size:12px;color:var(--mut)}.um span{direction:ltr;unicode-bidi:embed}
+.uact{display:flex;gap:6px;flex-wrap:wrap}.uact .btn{margin:0;padding:6px 12px;font-size:13px}
+.btn.dng{background:transparent;color:var(--err);border:1px solid var(--err)}
+.tag.warn{background:#b45309}.tag.bad{background:var(--err)}
+.frm .row{margin-top:0}
+.frm .btn{margin-top:12px}
+#tip{position:fixed;z-index:1100;display:none;background:var(--tx);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.7;pointer-events:none;max-width:250px}
+#tip.on{display:block}
 </style>
 </head>
 <body class="nologin">
@@ -123,8 +184,18 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <li>رابط فارسی و راست‌چین با فونت وزیرمتن</li></ul></div>
 <p style="text-align:center;color:var(--mut);font-size:13px">نسخه <span id="lver"></span></p>
 </div>
-<header><h1>حضور و غیاب کلاس</h1><div><small id="ver"></small><button class="hbtn" id="lo" onclick="logout()">خروج</button></div></header>
+<header><h1>حضور و غیاب کلاس</h1><div class="hr"><div class="hv"><small id="ver"></small><a href="#" class="vl" onclick="tab('about');return false">تاریخچه نسخه‌ها</a></div><button class="hbtn" id="lo" onclick="logout()">خروج</button></div></header>
 <main>
+<!-- داشبورد مدیریت -->
+<section id="p-dash" class="hide"><div class="card dh"><h2>داشبورد مدیریت</h2><div class="dsub">گزارش کلی کلاس‌های برگزارشده؛ آخرین بروزرسانی: <span id="dstamp"></span></div>
+<div class="drow"><div class="chips" id="dchips"></div><select id="dprof" aria-label="استاد" onchange="DP=this.value;renderDash()"></select><button class="btn sec" onclick="dashSync()">همگام‌سازی</button></div><div id="dsync"></div></div>
+<div id="dbody"></div></section>
+<!-- مدیریت کاربران -->
+<section id="p-users" class="hide"><div class="card dh"><h2>مدیریت کاربران</h2><div class="dsub">ساخت و مدیریت حساب استاد و دانشجو؛ حساب‌ها با اینترنت بین دستگاه‌ها همگام می‌شوند</div>
+<div class="drow"><input id="uq" placeholder="جستجوی نام یا نام کاربری" oninput="renderUsers()" style="flex:2;min-width:150px"><button class="btn" onclick="userForm('new')">+ کاربر جدید</button><button class="btn sec" onclick="usersSync()">همگام‌سازی</button></div>
+<div class="chips" id="uchips" style="margin-top:10px"></div><div id="usync"></div></div>
+<div id="uform"></div><div id="ulist"></div>
+<div class="card"><b>حساب‌های داخلی برنامه</b><p class="um" style="margin:6px 0 0">حساب مدیر و دو حساب آزمایشی (استاد و دانشجو) داخل کد برنامه تعریف شده‌اند و از این صفحه قابل ویرایش یا حذف نیستند.</p></div></section>
 <!-- استاد -->
 <section id="p-prof"><div class="card"><b>ورود / خروج استاد</b>
 <label>نام استاد</label><input id="pName"><label>نام درس</label><input id="pCourse">
@@ -143,12 +214,11 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <div class="card" id="printarea"><h2 id="pTitle"></h2><div id="qrbox"></div></div>
 </section>
 <!-- سوابق -->
-<section id="p-log" class="hide"><div class="card"><b>سوابق حضور</b><div id="logs"></div>
-<button class="btn sec" onclick="syncNow()">همگام‌سازی با سرور</button>
-<div id="syncst"></div>
-<button class="btn sec" onclick="exportCSV()">خروجی CSV</button>
-<button class="btn sec" onclick="if(confirm('همه سوابق پاک شود؟')){db.sessions=[];save();renderLogs()}">پاک کردن سوابق</button></div>
-<div class="card"><label>شعاع مجاز از موقعیت کلاس (متر) — فقط برای علامت‌گذاری در سوابق؛ مانع ثبت حضور نمی‌شود</label><input id="radius" inputmode="numeric" onchange="db.radius=+this.value||100;save()"></div></section>
+<section id="p-log" class="hide"><div class="card dh"><h2 id="lgT">سوابق</h2><div class="dsub" id="lgS"></div>
+<div class="drow"><div class="chips" id="lchips"></div><div class="chips" id="lper"></div><select id="lprof" class="hide" aria-label="استاد" onchange="LP=this.value;LLIM=30;renderLogs()"></select>
+<button class="btn sec" onclick="syncNow()">همگام‌سازی</button><button class="btn sec" onclick="exportCSV()">خروجی CSV</button><button class="btn dng hide" id="lclr" onclick="if(confirm('همه سوابق ذخیره‌شده روی این دستگاه پاک شود؟')){db.sessions=[];save();renderLogs()}">پاک کردن سوابق این دستگاه</button></div><div id="syncst"></div></div>
+<div id="lrep"></div>
+<div class="card hide" id="lrad"><label>شعاع مجاز از موقعیت کلاس (متر) — فقط برای علامت‌گذاری در سوابق؛ مانع ثبت حضور نمی‌شود</label><input id="radius" inputmode="numeric" onchange="db.radius=+this.value||100;save()"></div></section>
 <!-- درباره -->
 <section id="p-about" class="hide"><div class="card"><b>نسخه جاری: <span id="cur"></span></b></div>
 <div class="card"><b>سابقه تغییرات</b><div id="chg"></div></div></section>
@@ -170,20 +240,27 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--pri)}
 <script src="lib/supabase.js"></script>
 <script src="supabase-config.js"></script>
 <script>
-const VERSION='1.6.0';
-const CHANGELOG=[{v:'1.6.0',d:'۱۴۰۵/۰۹/۰۶',items:['افزودن حساب آزمایشی استاد و دانشجو (رمزها هش‌شده)؛ استاد فقط تب استاد و دانشجو فقط تب دانشجو را می‌بیند','پر شدن خودکار نام و مشخصات حساب‌های آزمایشی در فرم ثبت حضور']},{v:'1.5.0',d:'۱۴۰۵/۰۹/۰۶',items:['استفاده از فونت فارسی وزیرمتن (داخل برنامه، بدون نیاز به اینترنت)','صفحه ورود با معرفی محصول، روش استفاده و مزایا','حساب مدیر با رمز عبور هش‌شده (PBKDF2-SHA256) در کد برنامه؛ تب‌های بارکد و سوابق فقط برای مدیر','ورود استاد و دانشجو بدون حساب برای ثبت حضور (تب استاد و دانشجو)']},{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
+const VERSION='1.9.0';
+const CHANGELOG=[{v:'1.9.0',d:'۱۴۰۵/۰۹/۰۶',items:['صفحه سوابق بازطراحی شد: مدیر سوابق همه اساتید و کلاس‌ها را می‌بیند؛ استاد فقط کلاس‌های خودش و دانشجو فقط ورود و خروج خودش را','گزارش و نمودار تعداد کلاس‌ها، مجموع ساعت و تعداد شرکت‌کنندگان (روزانه، هفتگی، ماهانه) برای مدیر؛ گزارش فعالیت شخصی برای استاد و دانشجو','تب سوابق برای استاد و دانشجو فعال شد و نام و شماره دانشجویی حساب‌های کاربری قابل تغییر نیست','پیوند نسخه از پایین صفحه به بالای صفحه زیر عبارت نسخه منتقل شد','آیکون برای گزینه‌های استاد، دانشجو، بارکد و سوابق (و داشبورد و کاربران)']},{v:'1.8.0',d:'۱۴۰۵/۰۹/۰۶',items:['صفحه مدیریت کاربران (مخصوص مدیر): ساخت، ویرایش، فعال/غیرفعال کردن، حذف و تغییر رمز حساب استاد و دانشجو، همراه با جستجو و فیلتر','ساخت رمز تصادفی برای کاربر جدید','رمز کاربران به‌صورت هش (PBKDF2) ذخیره و با Supabase همگام می‌شود؛ حساب مدیر فقط داخل برنامه است و از طریق این صفحه یا سرور قابل ساخت نیست','استاد یا دانشجوی واردشده با حساب خود، نام و مشخصاتش خودکار در فرم ثبت حضور پر می‌شود']},{v:'1.7.0',d:'۱۴۰۵/۰۹/۰۶',items:['داشبورد مدیریت (مخصوص مدیر): گزارش کلی همه کلاس‌های برگزارشده با کارت‌های خلاصه، نمودار تعداد دانشجو در هر کلاس، نمودار زمان شروع و پایان کلاس‌ها، نمودار حضور به تفکیک استاد و جدول کامل','فیلتر بازه زمانی (امروز، ۷ و ۳۰ روز، همه) و فیلتر استاد','رفع مشکل امنیتی: نام استاد، دانشجو و شماره کلاس هنگام نمایش escape می‌شوند تا داده‌های مخرب اجرا نشوند']},{v:'1.6.0',d:'۱۴۰۵/۰۹/۰۶',items:['افزودن حساب آزمایشی استاد و دانشجو (رمزها هش‌شده)؛ استاد فقط تب استاد و دانشجو فقط تب دانشجو را می‌بیند','پر شدن خودکار نام و مشخصات حساب‌های آزمایشی در فرم ثبت حضور']},{v:'1.5.0',d:'۱۴۰۵/۰۹/۰۶',items:['استفاده از فونت فارسی وزیرمتن (داخل برنامه، بدون نیاز به اینترنت)','صفحه ورود با معرفی محصول، روش استفاده و مزایا','حساب مدیر با رمز عبور هش‌شده (PBKDF2-SHA256) در کد برنامه؛ تب‌های بارکد و سوابق فقط برای مدیر','ورود استاد و دانشجو بدون حساب برای ثبت حضور (تب استاد و دانشجو)']},{v:'1.4.0',d:'۱۴۰۵/۰۹/۰۶',items:['بارکد کلاس پس از تولید در یک پنجره دیالوگ باز می‌شود','دور بارکد یک ناحیه مربعی سفید با گوشه‌های گرد قرار دارد (روی صفحه و در چاپ)','بستن پنجره با دکمه بستن، کلیک روی پس‌زمینه یا کلید Esc']},{v:'1.3.0',d:'۱۴۰۵/۰۹/۰۶',items:['فاصله فرد از محل کلاس دیگر مانع ثبت حضور نمی‌شود؛ فاصله به‌صورت متر همراه با هر ورود و خروج (استاد و دانشجو) ثبت می‌شود','نمایش فاصله در سوابق (خارج از شعاع مجاز با رنگ قرمز) و ستون فاصله در خروجی CSV','در صورت در دسترس نبودن موقعیت مکانی نیز حضور ثبت می‌شود و فاصله «نامشخص» می‌ماند','فاصله هم در پایگاه داده Supabase همگام‌سازی می‌شود']},{v:'1.2.0',d:'۱۴۰۵/۰۹/۰۵',items:['کتابخانه‌های نقشه، بارکدساز و بارکدخوان داخل برنامه قرار گرفتند (بدون نیاز به CDN)','همگام‌سازی سوابق با پایگاه داده Supabase در کنار ذخیره محلی','دانشجو و استاد می‌توانند با دو دستگاه جدا روی یک کلاس کار کنند (دریافت وضعیت کلاس از سرور هنگام اسکن)','ارسال خودکار داده‌های ذخیره‌شده در حالت آفلاین پس از اتصال مجدد و دکمه همگام‌سازی دستی در تب سوابق']},{v:'1.1.0',d:'۱۴۰۵/۰۹/۰۵',items:['کادر مربعی روی تصویر دوربین همراه با خط اسکن متحرک','افکت تشخیص بارکد (چشمک سبز، بیپ و لرزش)','افکت نتیجه ثبت: تیک سبز برای موفقیت و علامت قرمز برای خطا','خواندن بارکد فقط از داخل کادر برای سرعت و دقت بیشتر']},{v:'1.0.0',d:'۱۴۰۵/۰۹/۰۵',items:['انتشار اولیه','تولید و چاپ بارکد کلاس با موقعیت جغرافیایی و شماره کلاس','ثبت ورود/خروج استاد و دانشجو با اسکن بارکد (نوبت فرد ورود، زوج خروج)','ثبت خروج خودکار همه دانشجویان هنگام خروج استاد','نصب‌پذیر (PWA) و کارکرد آفلاین']}];
 const $=id=>document.getElementById(id);
+const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let db=JSON.parse(localStorage.getItem('cls_db')||'null')||{sessions:[],radius:100,profile:{}};
 const save=()=>localStorage.setItem('cls_db',JSON.stringify(db));
 const fa=t=>new Date(t).toLocaleString('fa-IR');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
 /* ناوبری */
-const ALL=[['prof','استاد'],['stu','دانشجو'],['gen','بارکد'],['log','سوابق'],['about','نسخه']];
+const ALL=[['dash','داشبورد'],['prof','استاد'],['stu','دانشجو'],['gen','بارکد'],['log','سوابق'],['users','کاربران'],['about','نسخه']];
+const ICONS={dash:'<rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/>',
+prof:'<rect x="3" y="3" width="18" height="11" rx="2"/><path d="M12 14v4M8 21l4-3 4 3M7 8h6M7 11h10"/>',
+stu:'<path d="M22 9 12 4 2 9l10 5 10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5M22 9v6"/>',
+gen:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M6.5 6.5h.01M17.5 6.5h.01M6.5 17.5h.01M14 14h3v3h-3zM20 14v.01M20 17v4M14 20.5h3"/>',
+log:'<path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/><path d="M12 7v5l3 2"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c3 0 5 2 5 5"/>'};
 let TABS=ALL;
 function tab(t){if(!TABS.some(x=>x[0]===t))return;ALL.forEach(x=>{$('p-'+x[0]).classList.toggle('hide',x[0]!==t)});
 document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-if(t==='log')renderLogs();if(t==='gen')initMap()}
+if(t==='log')renderLogs();if(t==='gen')initMap();if(t==='dash')renderDash();if(t==='users')renderUsers()}
 
 /* ورود */
 const AUTH={it:150000,users:[
@@ -195,23 +272,33 @@ async function derive(u,p,salt){const k=await crypto.subtle.importKey('raw',new 
 return toHex(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(salt),iterations:AUTH.it},k,256))}
 const PRE={prof:{pName:'استاد آزمایشی',pCourse:'درس آزمایشی'},stu:{sName:'دانشجوی آزمایشی',sId:'99000001'}};
 const rd=k=>{try{return sessionStorage.getItem(k)||localStorage.getItem(k)||''}catch(e){return ''}};
-let role=rd('cls_role'),fails=0;
-function setRole(r,remember){role=r;try{sessionStorage.removeItem('cls_role');localStorage.removeItem('cls_role');if(r)(remember?localStorage:sessionStorage).setItem('cls_role',r)}catch(e){}applyRole()}
-const ROLETABS={admin:null,prof:['prof','about'],stu:['stu','about'],guest:['prof','stu','about']};
+let sess=null;try{sess=JSON.parse(rd('cls_sess')||'null')}catch(e){}
+if(sess&&!['admin','prof','stu','guest'].includes(sess.r))sess=null;
+let role=sess?sess.r:'',fails=0;
+function setRole(r,remember,pre){role=r;sess=r?{r,p:pre||{}}:null;try{['sessionStorage','localStorage'].forEach(k=>window[k].removeItem('cls_sess'));if(r)(remember?localStorage:sessionStorage).setItem('cls_sess',JSON.stringify(sess))}catch(e){}applyRole()}
+const ROLETABS={admin:null,prof:['prof','log','about'],stu:['stu','log','about'],guest:['prof','stu','log','about']};
 function applyRole(){const rt=ROLETABS[role];TABS=rt?ALL.filter(x=>rt.includes(x[0])):ALL;
-if(PRE[role])Object.entries(PRE[role]).forEach(([k,v])=>{if(!$(k).value.trim()){$(k).value=v;db.profile[k]=v}});save();
-$('nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')">${t[1]}</button>`).join('');
+if(sess&&sess.p)Object.entries(sess.p).forEach(([k,v])=>{if(['pName','pCourse','sName','sId'].includes(k)){$(k).value=v;db.profile[k]=v}});save();
+['pName','sName','sId'].forEach(k=>{$(k).readOnly=!!(sess&&(sess.r==='prof'||sess.r==='stu')&&sess.p&&sess.p[k]!=null)});
+$('nav').innerHTML=TABS.filter(t=>t[0]!=='about').map(t=>`<button data-t="${t[0]}" onclick="tab('${t[0]}')"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[t[0]]}</svg><span>${t[1]}</span></button>`).join('');
 document.body.classList.toggle('nologin',!role);$('lo').textContent=role==='guest'?'ورود به حساب':'خروج';
 if(role)tab(TABS[0][0]);else scrollTo(0,0)}
+async function verifyUser(u,pw){
+for(const x of AUTH.users)if((await derive(u,pw,x.s))===x.h)return{r:x.r,p:PRE[x.r]||{}};
+const un=u.toLowerCase();
+for(const x of db.users){if(x.deleted||!x.active||!['prof','stu'].includes(x.role)||x.username!==un)continue;
+ if((await derive(x.username,pw,x.salt))===x.hash)return{r:x.role,p:x.role==='prof'?{pName:x.name,pCourse:x.extra}:{sName:x.name,sId:x.extra}}}
+return null}
 async function doLogin(){const u=$('lUser').value.trim(),pw=$('lPass').value;
 let lk=0;try{lk=+localStorage.getItem('cls_lock')||0}catch(e){}
 if(Date.now()<lk)return msg('m-login','به دلیل تلاش‌های ناموفق، چند ثانیه صبر کنید و دوباره امتحان کنید','err');
-let who='';try{for(const x of AUTH.users)if((await derive(u,pw,x.s))===x.h)who=x.r}catch(e){return msg('m-login','مرورگر از رمزنگاری پشتیبانی نمی‌کند (برنامه باید با https باز شود)','err')}
-if(who){fails=0;$('lPass').value='';$('m-login').innerHTML='';setRole(who,$('lRem').checked)}
-else{if(++fails>=5){fails=0;try{localStorage.setItem('cls_lock',Date.now()+30000)}catch(e){}}msg('m-login','نام کاربری یا رمز عبور اشتباه است','err')}}
-const guestEnter=()=>setRole('guest',false);
-const logout=()=>setRole('',false);
-applyRole();
+if(!u||!pw)return msg('m-login','نام کاربری و رمز عبور را وارد کنید','err');
+try{await tmo(pullUsers(),6000)}catch(e){}
+let who=null;try{who=await verifyUser(u,pw)}catch(e){return msg('m-login','مرورگر از رمزنگاری پشتیبانی نمی‌کند (برنامه باید با https باز شود)','err')}
+if(who){fails=0;$('lPass').value='';$('m-login').innerHTML='';setRole(who.r,$('lRem').checked,who.p)}
+else{if(++fails>=5){fails=0;try{localStorage.setItem('cls_lock',Date.now()+30000)}catch(e){}}msg('m-login','نام کاربری یا رمز عبور اشتباه است یا حساب غیرفعال است','err')}}
+const guestEnter=()=>setRole('guest',false,{});
+const logout=()=>setRole('',false,{});
 
 /* نسخه */
 $('ver').textContent='نسخه '+VERSION;$('lver').textContent=VERSION;$('cur').textContent=VERSION;
@@ -243,13 +330,13 @@ function closeQR(){$('qrdlg').classList.remove('show')}
 addEventListener('keydown',e=>{if(e.key==='Escape')closeQR()});
 
 /* پیام */
-function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${t}</div>`;if(afterScan&&(id==='m-prof'||id==='m-stu')){afterScan=false;fx(c,t)}}
+function msg(id,t,c){$(id).innerHTML=`<div class="msg ${c}">${esc(t)}</div>`;if(afterScan&&(id==='m-prof'||id==='m-stu')){afterScan=false;fx(c,t)}}
 
 /* همگام‌سازی با Supabase */
 const SB=window.CLASSQR_SUPABASE||{};
 const sb=(window.supabase&&SB.url&&SB.key)?window.supabase.createClient(SB.url,SB.key,{auth:{persistSession:false,autoRefreshToken:false}}):null;
-db.dirty=db.dirty||{};
-const setSync=(t,c)=>{const e=$('syncst');if(e)e.innerHTML=t?`<div class="msg ${c||''}">${t}</div>`:''};
+db.dirty=db.dirty||{};db.udirty=db.udirty||{};db.users=db.users||[];
+const setSync=(t,c)=>['syncst','dsync','usync'].forEach(id=>{const e=$(id);if(e)e.innerHTML=t?`<div class="msg ${c||''}">${t}</div>`:''});
 const tmo=(p,ms)=>Promise.race([p,new Promise((_,no)=>setTimeout(()=>no(new Error('timeout')),ms))]);
 function mergeRemote(ss,evs){
 ss.forEach(r=>{let s=db.sessions.find(x=>x.id===r.id);
@@ -285,9 +372,9 @@ return me}
 const touch=s=>{db.dirty[s.id]=1;save();push().catch(()=>{})};
 async function syncNow(){if(!sb)return setSync('اتصال به سرور تنظیم نشده است','err');
 setSync('در حال همگام‌سازی...');
-try{await tmo(pull(),20000);await tmo(push(),20000);renderLogs();setSync('همگام‌سازی انجام شد ('+fa(Date.now())+')','ok')}
+try{await tmo(pull(),20000);await tmo(push(),20000);await tmo(pullUsers(),20000);await tmo(pushUsers(),20000);renderLogs();renderDash();renderUsers();setSync('همگام‌سازی انجام شد ('+fa(Date.now())+')','ok')}
 catch(e){setSync('همگام‌سازی انجام نشد؛ داده‌ها روی دستگاه ذخیره هستند و بعداً ارسال می‌شوند','err')}}
-addEventListener('online',()=>{push().catch(()=>{})});
+addEventListener('online',()=>{push().catch(()=>{});pushUsers().catch(()=>{})});
 push().catch(()=>{});
 
 /* اسکن */
@@ -342,16 +429,211 @@ if(!s){s={id,name:$('sName').value.trim(),ev:[]};act.students.push(s)}
 addEv(s,now,m);touch(act);
 msg(out,(s.ev.length%2?`ورود شما ثبت شد (${fa(now)})`:`خروج شما ثبت شد (${fa(now)})`)+dt,'ok')}
 
-/* سوابق */
-function renderLogs(){$('logs').innerHTML=db.sessions.length?db.sessions.slice().reverse().map(s=>`<div class="sess">
-<b>کلاس ${s.cls}</b> — ${s.course} — ${s.prof} <span class="tag ${s.end?'off':''}">${s.end?'پایان‌یافته':'فعال'}</span><br>
-<small>ورود: ${fa(s.start)}${dtag(s.sd)}${s.end?' | خروج: '+fa(s.end)+dtag(s.ed):''}</small>
-<details><summary>دانشجویان (${s.students.length})</summary>${s.students.map(t=>`<div>${t.name} (${t.id}): ${t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+new Date(e).toLocaleTimeString('fa-IR')+dtag(t.dist&&t.dist[i])).join('، ')}</div>`).join('')||'—'}</details></div>`).join(''):'<p>سابقه‌ای ثبت نشده است.</p>'}
-function exportCSV(){const r=[['کلاس','درس','استاد','ورود استاد','فاصله استاد در ورود (متر)','خروج استاد','فاصله استاد در خروج (متر)','دانشجو','شماره دانشجویی','ورود/خروج‌ها']];
-db.sessions.forEach(s=>s.students.forEach(t=>r.push([s.cls,s.course,s.prof,fa(s.start),s.sd??'',s.end?fa(s.end):'',s.ed??'',t.name,t.id,t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+fa(e)+dtxt(t.dist&&t.dist[i])).join(' | ')])));
-const csv='\ufeff'+r.map(x=>x.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+
+/* داشبورد مدیریت */
+const N=(x,o)=>(+x).toLocaleString('fa-IR',o);
+const hm=t=>new Date(t).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit',hour12:false});
+const dShort=t=>new Date(t).toLocaleDateString('fa-IR',{month:'numeric',day:'numeric'});
+const dFull=t=>new Date(t).toLocaleDateString('fa-IR');
+const fdur=m=>{m=Math.round(m);if(m<60)return N(m)+' دقیقه';const h=Math.floor(m/60),r=m%60;return N(h)+' ساعت'+(r?' و '+N(r)+' دقیقه':'')};
+const tod=t=>{const d=new Date(t);return d.getHours()+d.getMinutes()/60};
+const durM=(s,now)=>((s.end||now)-s.start)/60000;
+let DR='all',DP='all';
+const RANGES=[['today','امروز'],['7','۷ روز اخیر'],['30','۳۰ روز اخیر'],['all','همه']];
+function niceMax(v){let st=5000;for(const x of [0.1,0.2,0.5,1,2,5,10,20,25,50,100,200,500,1000,2000,5000])if(v<=x*4){st=x;break}return{step:st,max:st*4}}
+function tipOf(s,now){return `کلاس ${s.cls} — ${s.prof}\n${s.course?'درس: '+s.course+'\n':''}${dFull(s.start)}\nشروع: ${hm(s.start)} — ${s.end?'پایان: '+hm(s.end):'در حال برگزاری'}\nمدت: ${fdur(durM(s,now))}${s.end?'':' (تا این لحظه)'}\nتعداد دانشجو: ${N(s.students.length)}`}
+function colChart(title,sub,items,o){o=o||{};const fm=o.fmt||(x=>N(x)),nm=niceMax(Math.max(o.min||1,...items.map(i=>i.v))),W=38,n=items.length;
+return `<div class="card"><h3 class="ct">${esc(title)}</h3><p class="cs">${esc(sub)}</p>${o.lg||''}
+<div class="cwrap" role="img" aria-label="${esc(title)}؛ جزئیات در جدول یا فهرست پایین صفحه"><div class="cy">${[0,1,2,3,4].map(i=>`<span style="bottom:${i*25}%">${N(i*nm.step,{maximumFractionDigits:1})}</span>`).join('')}</div>
+<div class="cscroll"><div class="plot" style="min-width:${n*W}px">${[0,1,2,3,4].map(i=>`<u style="bottom:${i*25}%"></u>`).join('')}${items.map(x=>{const p=x.v/nm.max*100;return `<div class="col"><i class="bar${x.act?' act':''}" style="height:${p}%" data-tip="${esc(x.tip)}" tabindex="0"></i><em class="val" style="bottom:calc(${p}% + 3px)">${fm(x.v)}</em></div>`}).join('')}</div>
+<div class="cx" style="min-width:${n*W}px">${items.map(x=>`<div class="xl"><b>${esc(x.l1)}</b><br>${esc(x.l2||'')}</div>`).join('')}</div></div></div></div>`}
+function dashData(){const now=Date.now(),cut=DR==='today'?new Date().setHours(0,0,0,0):DR==='7'?now-7*864e5:DR==='30'?now-30*864e5:0;
+return db.sessions.filter(s=>s.start>=cut&&(DP==='all'||s.prof===DP)).sort((a,b)=>a.start-b.start)}
+function renderDash(){if(!$('dbody'))return;
+$('dchips').innerHTML=RANGES.map(r=>`<button class="chip" aria-pressed="${DR===r[0]}" onclick="DR='${r[0]}';renderDash()">${r[1]}</button>`).join('');
+const profs=[...new Set(db.sessions.map(x=>x.prof))].sort((a,b)=>a.localeCompare(b,'fa'));
+if(DP!=='all'&&!profs.includes(DP))DP='all';
+$('dprof').innerHTML='<option value="all">همه اساتید</option>'+profs.map(x=>`<option value="${esc(x)}"${x===DP?' selected':''}>${esc(x)}</option>`).join('');
+$('dstamp').textContent=fa(Date.now());
+const now=Date.now(),ss=dashData(),done=ss.filter(x=>x.end),act=ss.filter(x=>!x.end).length;
+const att=ss.reduce((a,x)=>a+x.students.length,0),avgD=done.length?done.reduce((a,x)=>a+durM(x,now),0)/done.length:null;
+const kp=[[N(ss.length),'کلاس برگزارشده'],[N(act),'کلاس در حال برگزاری'],[N(new Set(ss.map(x=>x.prof)).size),'تعداد اساتید'],[N(att),'مجموع حضور دانشجو'],[ss.length?N(att/ss.length,{maximumFractionDigits:1}):'—','میانگین دانشجو در هر کلاس'],[avgD==null?'—':fdur(avgD),'میانگین مدت کلاس']];
+let h=`<div class="kpis">${kp.map(k=>`<div class="kpi"><b${k[0].length>8?' style="font-size:18px"':''}>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`;
+if(!ss.length){$('dbody').innerHTML=h+'<div class="card">در این بازه کلاسی ثبت نشده است. بازه یا استاد را تغییر دهید یا همگام‌سازی کنید.</div>';return}
+const lg=act?`<div class="lg"><span><i></i>پایان‌یافته</span><span><i class="act"></i>در حال برگزاری</span></div>`:'';
+/* نمودار ۱: تعداد دانشجو در هر کلاس */
+const cs=ss.slice(-14);
+h+=colChart('تعداد دانشجو در هر کلاس',(cs.length<ss.length?N(cs.length)+' کلاس آخر از '+N(ss.length)+' — ':'')+'به ترتیب زمان؛ زیر هر ستون شماره کلاس و تاریخ',cs.map(x=>({l1:x.cls,l2:dShort(x.start),v:x.students.length,tip:tipOf(x,now),act:!x.end})),{lg});
+/* نمودار ۲: زمان شروع و پایان */
+const gs=ss.slice(-12).reverse(),endT=x=>{const e=x.end||now;return new Date(e).toDateString()!==new Date(x.start).toDateString()?24:tod(e)};
+let lo=Math.max(0,Math.floor(Math.min(...gs.map(x=>tod(x.start))))-1),hi=Math.min(24,Math.ceil(Math.max(...gs.map(endT)))+1);
+if(hi-lo<5)hi=Math.min(24,lo+5);if(hi-lo<5)lo=hi-5;
+let stp=hi-lo>12?2:1;if((hi-lo)%stp){if(hi<24)hi++;else lo--}
+const sp=hi-lo,ticks=[];for(let t=lo;t<=hi;t+=stp)ticks.push(t);
+h+=`<div class="card"><h3 class="ct">زمان شروع و پایان کلاس‌ها</h3><p class="cs">هر نوار از ساعت شروع تا ساعت پایان کلاس است${gs.length<ss.length?' — '+N(gs.length)+' کلاس آخر از '+N(ss.length):''}</p>${lg}
+<div class="gwrap"><div class="gt" dir="ltr" role="img" aria-label="نمودار زمان شروع و پایان کلاس‌ها؛ جزئیات در جدول پایین صفحه"><div class="gax">${ticks.map(t=>`<span style="left:${(t-lo)/sp*100}%">${N(t,{minimumIntegerDigits:2})}</span>`).join('')}</div>
+${gs.map(x=>{const a=tod(x.start),b=Math.max(endT(x),a),l=(a-lo)/sp*100,w=Math.max((b-a)/sp*100,1.5);
+return `<div class="grow"><div class="glab" dir="rtl">کلاس ${esc(x.cls)} — ${esc(x.prof)} <small>${hm(x.start)} تا ${x.end?hm(x.end):'اکنون'} · ${dShort(x.start)}</small></div><div class="gtr" style="background-size:calc(100% / ${sp/stp}) 100%"><i class="gb${x.end?'':' act'}" style="left:${l}%;width:${w}%" data-tip="${esc(tipOf(x,now))}" tabindex="0"></i></div></div>`}).join('')}</div></div></div>`;
+/* نمودار ۳: حضور به تفکیک استاد */
+const pm={};ss.forEach(x=>{const o=pm[x.prof]||(pm[x.prof]={n:0,a:0});o.n++;o.a+=x.students.length});
+let pr=Object.entries(pm).sort((a,b)=>b[1].a-a[1].a||b[1].n-a[1].n);
+if(pr.length>8){const rest=pr.slice(7).reduce((o,e)=>({n:o.n+e[1].n,a:o.a+e[1].a}),{n:0,a:0});pr=pr.slice(0,7).concat([['سایر اساتید',rest]])}
+const pmx=Math.max(1,...pr.map(e=>e[1].a));
+h+=`<div class="card"><h3 class="ct">مجموع حضور دانشجو به تفکیک استاد</h3><p class="cs">مجموع تعداد دانشجوی حاضر در کلاس‌های هر استاد</p>
+<div role="img" aria-label="نمودار میله‌ای مجموع حضور دانشجو به تفکیک استاد؛ جزئیات در جدول پایین صفحه">${pr.map(e=>`<div class="hrow"><div class="hh"><span>${esc(e[0])} <small>${N(e[1].n)} کلاس</small></span><b>${N(e[1].a)}</b></div><div class="htr"><i class="hb" style="width:${e[1].a/pmx*100}%" data-tip="${esc(e[0]+'\n'+N(e[1].n)+' کلاس\n'+N(e[1].a)+' حضور دانشجو')}" tabindex="0"></i></div></div>`).join('')}</div></div>`;
+/* جدول */
+const rows=ss.slice().reverse().slice(0,50);
+h+=`<div class="card"><h3 class="ct">جدول کلاس‌های برگزارشده</h3><p class="cs">${rows.length<ss.length?N(rows.length)+' کلاس آخر از '+N(ss.length):N(ss.length)+' کلاس'}</p><div class="tw"><table class="dtbl"><thead><tr><th>کلاس</th><th>استاد</th><th>درس</th><th>تاریخ</th><th>شروع</th><th>پایان</th><th>مدت</th><th>دانشجو</th><th>وضعیت</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.cls)}</td><td>${esc(x.prof)}</td><td>${esc(x.course||'—')}</td><td>${dFull(x.start)}</td><td>${hm(x.start)}</td><td>${x.end?hm(x.end):'—'}</td><td>${fdur(durM(x,now))}</td><td>${N(x.students.length)}</td><td><span class="tag ${x.end?'off':''}">${x.end?'پایان‌یافته':'فعال'}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+$('dbody').innerHTML=h;
+const sc=document.querySelector('.cscroll');if(sc)sc.scrollLeft=-sc.scrollWidth}
+async function dashSync(){await syncNow();renderDash()}
+/* راهنمای نمودار */
+const tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);
+function showTip(el,x,y){const L=el.getAttribute('data-tip').split('\n');tip.innerHTML=L.map((l,i)=>i?`<div>${esc(l)}</div>`:`<b>${esc(l)}</b>`).join('');tip.classList.add('on');placeTip(x,y)}
+function placeTip(x,y){const w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x-w/2))+'px';tip.style.top=(y-h-14<8?y+18:y-h-14)+'px'}
+document.addEventListener('pointerover',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(t)showTip(t,e.clientX,e.clientY)});
+document.addEventListener('pointermove',e=>{if(tip.classList.contains('on'))placeTip(e.clientX,e.clientY)});
+document.addEventListener('pointerout',e=>{if(e.target.closest&&e.target.closest('[data-tip]'))tip.classList.remove('on')});
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(t)showTip(t,e.clientX,e.clientY);else tip.classList.remove('on')});
+document.addEventListener('focusin',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(t){const r=t.getBoundingClientRect();showTip(t,r.left+r.width/2,r.top)}});
+document.addEventListener('focusout',()=>tip.classList.remove('on'));
+
+
+/* مدیریت کاربران */
+let UE=null,UF='all';
+const randHex=n=>[...crypto.getRandomValues(new Uint8Array(n))].map(x=>x.toString(16).padStart(2,'0')).join('');
+function genPw(){const c='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';return [...crypto.getRandomValues(new Uint8Array(10))].map(x=>c[x%c.length]).join('')}
+async function pullUsers(){if(!sb)return;
+const r=await sb.from('classqr_users').select('*').limit(1000);if(r.error)throw r.error;
+r.data.forEach(x=>{if(!['prof','stu'].includes(x.role))return;
+ const o={id:x.id,username:x.username,role:x.role,name:x.display_name,extra:x.extra,salt:x.salt,hash:x.hash,active:!!x.active,deleted:!!x.deleted,upd:+x.updated_at};
+ const i=db.users.findIndex(y=>y.id===o.id);
+ if(i<0)db.users.push(o);
+ else if(db.udirty[o.id]){if(o.upd>db.users[i].upd){db.users[i]=o;delete db.udirty[o.id]}}
+ else if(o.upd>=db.users[i].upd)db.users[i]=o});save()}
+async function pushUsers(){if(!sb)return;const ids=Object.keys(db.udirty);if(!ids.length)return;
+const rows=db.users.filter(u=>db.udirty[u.id]).map(u=>({id:u.id,username:u.username,role:u.role,display_name:u.name,extra:u.extra||'',salt:u.salt,hash:u.hash,active:u.active,deleted:!!u.deleted,updated_at:u.upd}));
+const r=await sb.from('classqr_users').upsert(rows,{onConflict:'id'});if(r.error)throw r.error;
+ids.forEach(k=>delete db.udirty[k]);save()}
+const roleFa=r=>r==='prof'?'استاد':'دانشجو';
+function renderUsers(){if(!$('ulist'))return;
+const all=db.users.filter(u=>!u.deleted),q=($('uq').value||'').trim().toLowerCase();
+const cnt={all:all.length,prof:all.filter(u=>u.role==='prof').length,stu:all.filter(u=>u.role==='stu').length,off:all.filter(u=>!u.active).length};
+$('uchips').innerHTML=[['all','همه'],['prof','استاد'],['stu','دانشجو'],['off','غیرفعال']].map(c=>`<button class="chip" aria-pressed="${UF===c[0]}" onclick="UF='${c[0]}';renderUsers()">${c[1]} (${N(cnt[c[0]])})</button>`).join('');
+const list=all.filter(u=>(UF==='all'||(UF==='off'?!u.active:u.role===UF))&&(!q||u.username.includes(q)||u.name.toLowerCase().includes(q)||(u.extra||'').toLowerCase().includes(q))).sort((a,b)=>b.upd-a.upd);
+$('ulist').innerHTML=list.length?list.map(u=>`<div class="card urow"><div class="uh"><b>${esc(u.name)}</b><span><span class="tag">${roleFa(u.role)}</span> <span class="tag ${u.active?'':'bad'}">${u.active?'فعال':'غیرفعال'}</span>${db.udirty[u.id]?' <span class="tag warn">منتظر ارسال</span>':''}</span></div>
+<div class="um">نام کاربری: <span>${esc(u.username)}</span> · ${u.role==='stu'?'شماره دانشجویی':'درس'}: ${esc(u.extra||'—')} · بروزرسانی: ${fa(u.upd)}</div>
+<div class="uact"><button class="btn sec" data-a="edit" data-id="${esc(u.id)}">ویرایش / تغییر رمز</button><button class="btn sec" data-a="tog" data-id="${esc(u.id)}">${u.active?'غیرفعال کردن':'فعال کردن'}</button><button class="btn dng" data-a="del" data-id="${esc(u.id)}">حذف</button></div></div>`).join(''):`<div class="card">${all.length?'کاربری با این فیلتر پیدا نشد.':'هنوز کاربری ساخته نشده است. با «کاربر جدید» یک حساب استاد یا دانشجو بسازید.'}</div>`}
+$('ulist').addEventListener('click',e=>{const b=e.target.closest('button[data-a]');if(!b)return;const id=b.dataset.id;
+if(b.dataset.a==='edit')userForm(id);else if(b.dataset.a==='tog')toggleUser(id);else if(b.dataset.a==='del')delUser(id)});
+function userForm(id){UE=id;const u=id==='new'?{role:'stu',active:true,username:'',name:'',extra:''}:db.users.find(x=>x.id===id);if(!u)return;
+$('uform').innerHTML=`<div class="card frm"><b>${id==='new'?'کاربر جدید':'ویرایش کاربر'}</b>
+<label for="fUn">نام کاربری (حروف انگلیسی کوچک، عدد، _ . -)</label><input id="fUn" dir="ltr" autocapitalize="off" value="${esc(u.username)}"${id==='new'?'':' readonly'}>
+<label for="fNm">نام و نام خانوادگی</label><input id="fNm" value="${esc(u.name)}">
+<label for="fRole">نقش</label><select id="fRole" onchange="fRoleCh()"><option value="stu"${u.role==='stu'?' selected':''}>دانشجو</option><option value="prof"${u.role==='prof'?' selected':''}>استاد</option></select>
+<label for="fEx" id="fExL"></label><input id="fEx" value="${esc(u.extra||'')}">
+<label for="fPw">${id==='new'?'رمز عبور (حداقل ۶ نویسه)':'رمز عبور جدید (برای تغییر نکردن خالی بگذارید)'}</label>
+<div class="row"><input id="fPw" type="password" dir="ltr" autocomplete="new-password"><button class="btn sec" type="button" style="margin:0;flex:none" onclick="$('fPw').type='text';$('fPw').value=genPw()">رمز تصادفی</button></div>
+<label class="chk"><input type="checkbox" id="fAc"${u.active?' checked':''}> حساب فعال باشد</label>
+<div id="m-user"></div>
+<div class="row"><button class="btn" onclick="saveUser()">ذخیره</button><button class="btn sec" onclick="UE=null;$('uform').innerHTML=''">انصراف</button></div></div>`;
+fRoleCh();$('uform').scrollIntoView({behavior:'smooth',block:'start'})}
+function fRoleCh(){$('fExL').textContent=$('fRole').value==='stu'?'شماره دانشجویی':'نام درس (اختیاری)'}
+async function saveUser(){const id=UE;if(!id)return;
+const nm=$('fNm').value.trim(),role=$('fRole').value,ex=$('fEx').value.trim(),pw=$('fPw').value,ac=$('fAc').checked;
+const un=id==='new'?$('fUn').value.trim().toLowerCase():db.users.find(x=>x.id===id).username;
+if(!/^[a-z0-9_.-]{3,40}$/.test(un))return msg('m-user','نام کاربری باید ۳ تا ۴۰ نویسه و فقط شامل حروف انگلیسی کوچک، عدد، _ . - باشد','err');
+if(!nm)return msg('m-user','نام و نام خانوادگی را وارد کنید','err');
+if(role==='stu'&&!ex)return msg('m-user','شماره دانشجویی را وارد کنید','err');
+if(id==='new'&&pw.length<6||pw&&pw.length<6)return msg('m-user','رمز عبور باید حداقل ۶ نویسه باشد','err');
+try{await tmo(pullUsers(),5000)}catch(e){}
+if(db.users.some(x=>!x.deleted&&x.username===un&&x.id!==id))return msg('m-user','این نام کاربری قبلاً استفاده شده است','err');
+const now=Date.now();let u;
+if(id==='new'){u={id:uid(),username:un};db.users.push(u)}else u=db.users.find(x=>x.id===id);
+Object.assign(u,{role,name:nm,extra:ex,active:ac,deleted:false,upd:now});
+try{if(pw){u.salt=randHex(16);u.hash=await derive(u.username,pw,u.salt)}}catch(e){if(id==='new')db.users.pop();return msg('m-user','ساخت رمز ممکن نشد (برنامه باید با https باز شود)','err')}
+const shown=pw&&$('fPw').type==='text'?pw:'';
+db.udirty[u.id]=1;save();pushUsers().then(renderUsers).catch(()=>{});
+UE=null;$('uform').innerHTML=shown?`<div class="card"><div class="msg ok">کاربر ذخیره شد. رمز عبور (فقط همین‌جا نمایش داده می‌شود): <b dir="ltr">${esc(shown)}</b></div></div>`:'';
+renderUsers()}
+function touchUser(u,m){u.upd=Date.now();db.udirty[u.id]=1;save();pushUsers().then(renderUsers).catch(()=>{});renderUsers()}
+function toggleUser(id){const u=db.users.find(x=>x.id===id);if(!u)return;u.active=!u.active;touchUser(u)}
+function delUser(id){const u=db.users.find(x=>x.id===id);if(!u||!confirm('کاربر «'+u.name+'» حذف شود؟'))return;u.deleted=true;u.active=false;touchUser(u)}
+async function usersSync(){setSync('در حال همگام‌سازی...');try{await tmo(pullUsers(),15000);await tmo(pushUsers(),15000);renderUsers();setSync('همگام‌سازی انجام شد ('+fa(Date.now())+')','ok')}catch(e){setSync('همگام‌سازی انجام نشد؛ تغییرات روی دستگاه ذخیره‌اند و بعداً ارسال می‌شوند','err')}}
+
+/* سوابق و گزارش */
+let LR='all',LP='all',LPER='week',LLIM=30;
+const PER=[['day','روزانه'],['week','هفتگی'],['month','ماهانه']];
+const presence=(t,s,now)=>{let m=0;for(let i=0;i<t.ev.length;i+=2){const b=t.ev[i+1]??(s.end||now);m+=Math.max(0,b-t.ev[i])}return m/60000};
+const jparts=t=>{const o={};new Intl.DateTimeFormat('en-US-u-ca-persian',{year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date(t)).forEach(x=>o[x.type]=x.value);return o};
+function myRecs(){const now=Date.now(),cut=LR==='today'?new Date().setHours(0,0,0,0):LR==='7'?now-7*864e5:LR==='30'?now-30*864e5:0,inR=s=>s.start>=cut;
+const pName=role==='prof'?((sess&&sess.p&&sess.p.pName)||''):($('pName').value||'').trim(),sId=role==='stu'?((sess&&sess.p&&sess.p.sId)||''):($('sId').value||'').trim();
+let kind,recs=[];
+const asProf=()=>db.sessions.filter(s=>inR(s)&&s.prof===pName).map(s=>({s,m:durM(s,now),p:s.students.length}));
+const asStu=()=>db.sessions.filter(s=>inR(s)&&s.students.some(t=>t.id===sId)).map(s=>{const t=s.students.find(x=>x.id===sId);return{s,t,m:presence(t,s,now)}});
+if(role==='admin'){kind='prof';recs=db.sessions.filter(s=>inR(s)&&(LP==='all'||s.prof===LP)).map(s=>({s,m:durM(s,now),p:s.students.length}))}
+else if(role==='prof'){kind='prof';recs=pName?asProf():[]}
+else if(role==='stu'){kind='stu';recs=sId?asStu():[]}
+else{kind=pName&&db.sessions.some(s=>s.prof===pName)?'prof':'stu';recs=kind==='prof'?asProf():(sId?asStu():[])}
+recs.sort((a,b)=>a.s.start-b.s.start);return{kind,recs,now,pName,sId}}
+function bucketize(recs,per,val){const key=t=>{const d=new Date(t);if(per==='month'){const j=jparts(t);return +j.year*100+ +j.month}d.setHours(0,0,0,0);if(per==='week')d.setDate(d.getDate()-((d.getDay()+1)%7));return d.getTime()};
+const B={};recs.forEach(r=>{const k=key(r.s.start),o=B[k]||(B[k]={k,t:r.s.start,n:0,h:0,p:0});o.n++;o.h+=r.m/60;o.p+=r.p||0;o.v=(o.v||0)+val(r)});
+let ks=Object.keys(B).map(Number).sort((a,b)=>a-b);
+if(per!=='month'&&ks.length){const all=[];const d=new Date(ks[0]),end=ks[ks.length-1];while(d.getTime()<=end&&all.length<2000){all.push(d.getTime());d.setDate(d.getDate()+(per==='week'?7:1))}ks=all}
+return ks.slice(-16).map(k=>{const o=B[k]||{n:0,h:0,p:0,v:0,t:k};
+ const l1=per==='month'?new Date(o.t).toLocaleDateString('fa-IR',{month:'long'}):dShort(k),l2=per==='month'?new Date(o.t).toLocaleDateString('fa-IR',{year:'numeric'}):per==='week'?'هفته':new Date(k).toLocaleDateString('fa-IR',{weekday:'short'});
+ return{l1,l2,v:o.v||0,o,title:per==='month'?l1+' '+l2:per==='week'?'هفته از '+dFull(k):dFull(k)}})}
+function renderLogs(){const el=$('lrep');if(!el)return;
+const adm=role==='admin';
+$('lgT').textContent=adm?'سوابق و گزارش همه کلاس‌ها':role==='prof'?'سوابق کلاس‌های من':role==='stu'?'سوابق ورود و خروج من':'سوابق من';
+$('lgS').textContent=adm?'سوابق همه اساتید و کلاس‌ها، همراه با گزارش تعداد کلاس، ساعت برگزاری و تعداد شرکت‌کنندگان':role==='prof'?'فقط کلاس‌هایی که با نام شما برگزار شده است':role==='stu'?'فقط ورود و خروج‌های ثبت‌شده با شماره دانشجویی شما':'سوابق مربوط به نام استاد یا شماره دانشجویی واردشده در تب‌های استاد و دانشجو';
+$('lclr').classList.toggle('hide',!adm);$('lrad').classList.toggle('hide',!adm);$('lprof').classList.toggle('hide',!adm);
+$('lchips').innerHTML=RANGES.map(r=>`<button class="chip" aria-pressed="${LR===r[0]}" onclick="LR='${r[0]}';LLIM=30;renderLogs()">${r[1]}</button>`).join('');
+$('lper').innerHTML=PER.map(r=>`<button class="chip" aria-pressed="${LPER===r[0]}" onclick="LPER='${r[0]}';renderLogs()">${r[1]}</button>`).join('');
+if(adm){const profs=[...new Set(db.sessions.map(x=>x.prof))].sort((a,b)=>a.localeCompare(b,'fa'));if(LP!=='all'&&!profs.includes(LP))LP='all';
+ $('lprof').innerHTML='<option value="all">همه اساتید</option>'+profs.map(x=>`<option value="${esc(x)}"${x===LP?' selected':''}>${esc(x)}</option>`).join('');$('radius').value=db.radius||100}
+const{kind,recs,now,pName,sId}=myRecs(),rd2=db.radius||100;
+if(!recs.length){el.innerHTML='<div class="card">'+(adm||kind==='prof'&&pName||kind==='stu'&&sId?'در این بازه سابقه‌ای ثبت نشده است. بازه را تغییر دهید یا همگام‌سازی کنید.':'برای دیدن سوابق، نام استاد یا شماره دانشجویی را در تب مربوط وارد کنید.')+'</div>';return}
+let h='';
+if(kind==='prof'){
+ const tot=recs.reduce((a,r)=>a+r.m,0)/60,ppl=recs.reduce((a,r)=>a+r.p,0),act=recs.filter(r=>!r.s.end).length;
+ const kp=[[N(recs.length),'کلاس برگزارشده'],[N(tot,{maximumFractionDigits:1})+' ساعت','مجموع ساعت برگزاری'],[N(ppl),'مجموع شرکت‌کنندگان'],[N(ppl/recs.length,{maximumFractionDigits:1}),'میانگین شرکت‌کننده در هر کلاس'],adm?[N(new Set(recs.map(r=>r.s.prof)).size),'تعداد اساتید']:[fdur(tot*60/recs.length),'میانگین مدت هر کلاس'],[N(act),'کلاس در حال برگزاری']];
+ h+=`<div class="kpis">${kp.map(k=>`<div class="kpi"><b${k[0].length>8?' style="font-size:18px"':''}>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`;
+ const pl=PER.find(x=>x[0]===LPER)[1],mk=(r,x)=>`${x.title}\nکلاس: ${N(x.o.n)}\nمجموع ساعت: ${N(x.o.h,{maximumFractionDigits:1})}\nشرکت‌کننده: ${N(x.o.p)}`;
+ const c1=bucketize(recs,LPER,r=>1),c2=bucketize(recs,LPER,r=>r.m/60),c3=bucketize(recs,LPER,r=>r.p);
+ h+=colChart('تعداد کلاس‌های برگزارشده ('+pl+')','هر ستون یک '+(LPER==='day'?'روز':LPER==='week'?'هفته':'ماه')+'؛ هفته از شنبه شروع می‌شود',c1.map(x=>({l1:x.l1,l2:x.l2,v:x.v,tip:mk(0,x)})),{min:4});
+ h+=colChart('مجموع ساعت برگزاری ('+pl+')','مدت کلاس‌ها از ورود تا خروج استاد',c2.map(x=>({l1:x.l1,l2:x.l2,v:x.v,tip:mk(0,x)})),{min:2,fmt:x=>N(x,{maximumFractionDigits:1})});
+ h+=colChart('تعداد شرکت‌کنندگان ('+pl+')','مجموع دانشجویان حاضر در کلاس‌های هر دوره',c3.map(x=>({l1:x.l1,l2:x.l2,v:x.v,tip:mk(0,x)})),{min:4});
+}else{
+ const tot=recs.reduce((a,r)=>a+r.m,0)/60,ev=recs.reduce((a,r)=>a+r.t.ev.length,0),far=recs.reduce((a,r)=>a+(r.t.dist||[]).filter(d=>d!=null&&d>rd2).length,0);
+ const kp=[[N(recs.length),'کلاس شرکت‌کرده'],[N(tot,{maximumFractionDigits:1})+' ساعت','مجموع ساعت حضور'],[fdur(tot*60/recs.length),'میانگین مدت حضور در هر کلاس'],[N(ev),'تعداد ورود و خروج ثبت‌شده'],[N(new Set(recs.map(r=>r.s.prof)).size),'تعداد اساتید'],[N(far),'ثبت خارج از شعاع مجاز']];
+ h+=`<div class="kpis">${kp.map(k=>`<div class="kpi"><b${k[0].length>8?' style="font-size:18px"':''}>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`;
+ const pl=PER.find(x=>x[0]===LPER)[1],mk=x=>`${x.title}\nکلاس: ${N(x.o.n)}\nمجموع ساعت حضور: ${N(x.o.h,{maximumFractionDigits:1})}`;
+ h+=colChart('تعداد کلاس‌های شرکت‌کرده ('+pl+')','هر ستون یک '+(LPER==='day'?'روز':LPER==='week'?'هفته':'ماه'),bucketize(recs,LPER,r=>1).map(x=>({l1:x.l1,l2:x.l2,v:x.v,tip:mk(x)})),{min:4});
+ h+=colChart('مجموع ساعت حضور ('+pl+')','مجموع زمان بین ورود و خروج شما در کلاس‌ها',bucketize(recs,LPER,r=>r.m/60).map(x=>({l1:x.l1,l2:x.l2,v:x.v,tip:mk(x)})),{min:2,fmt:x=>N(x,{maximumFractionDigits:1})});
+ const last=recs.slice(-14);
+ h+=colChart('مدت حضور در هر کلاس (دقیقه)',(last.length<recs.length?N(last.length)+' کلاس آخر از '+N(recs.length)+' — ':'')+'زیر هر ستون شماره کلاس و تاریخ',last.map(r=>({l1:r.s.cls,l2:dShort(r.s.start),v:Math.round(r.m),act:!r.s.end,tip:`کلاس ${r.s.cls} — ${r.s.prof}\n${dFull(r.s.start)}\nمدت حضور: ${fdur(r.m)}`})),{min:20});
+}
+/* فهرست سوابق */
+const list=recs.slice().reverse(),shown=list.slice(0,LLIM);
+h+=`<div class="card"><h3 class="ct">${kind==='prof'?'فهرست کلاس‌ها':'فهرست ورود و خروج‌های من'}</h3><p class="cs">${N(shown.length)} مورد از ${N(list.length)}</p>`+shown.map(r=>{const s=r.s;
+ if(kind==='prof')return `<div class="sess"><b>کلاس ${esc(s.cls)}</b> — ${esc(s.course)} — ${esc(s.prof)} <span class="tag ${s.end?'off':''}">${s.end?'پایان‌یافته':'فعال'}</span><br>
+<small>ورود: ${fa(s.start)}${dtag(s.sd)}${s.end?' | خروج: '+fa(s.end)+dtag(s.ed):''} · مدت: ${fdur(r.m)}</small>
+<details><summary>دانشجویان (${N(s.students.length)})</summary>${s.students.map(t=>`<div>${esc(t.name)} (${esc(t.id)}): ${t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+new Date(e).toLocaleTimeString('fa-IR')+dtag(t.dist&&t.dist[i])).join('، ')}</div>`).join('')||'—'}</details></div>`;
+ return `<div class="sess"><b>کلاس ${esc(s.cls)}</b> — ${esc(s.course)} — ${esc(s.prof)} <span class="tag ${s.end?'off':''}">${s.end?'پایان‌یافته':'فعال'}</span><br><small>${dFull(s.start)} · مدت حضور: ${fdur(r.m)}</small><div>${r.t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+new Date(e).toLocaleTimeString('fa-IR')+dtag(r.t.dist&&r.t.dist[i])).join('، ')}</div></div>`}).join('')
+ +(list.length>shown.length?`<button class="btn sec" onclick="LLIM+=30;renderLogs()">نمایش بیشتر</button>`:'')+'</div>';
+el.innerHTML=h}
+function exportCSV(){const{kind,recs}=myRecs(),r=[];
+if(kind==='prof'){r.push(['کلاس','درس','استاد','ورود استاد','فاصله استاد در ورود (متر)','خروج استاد','فاصله استاد در خروج (متر)','دانشجو','شماره دانشجویی','ورود/خروج‌ها']);
+ recs.forEach(({s})=>{const base=[s.cls,s.course,s.prof,fa(s.start),s.sd??'',s.end?fa(s.end):'',s.ed??''];if(!s.students.length)r.push(base.concat(['','','']));
+ s.students.forEach(t=>r.push(base.concat([t.name,t.id,t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+fa(e)+dtxt(t.dist&&t.dist[i])).join(' | ')])))})}
+else{r.push(['کلاس','درس','استاد','تاریخ','ورود/خروج‌ها','مدت حضور (دقیقه)']);
+ recs.forEach(x=>r.push([x.s.cls,x.s.course,x.s.prof,dFull(x.s.start),x.t.ev.map((e,i)=>(i%2?'خروج ':'ورود ')+fa(e)+dtxt(x.t.dist&&x.t.dist[i])).join(' | '),Math.round(x.m)]))}
+const csv='﻿'+r.map(x=>x.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
 const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='attendance.csv';a.click()}
 
+
+applyRole();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
